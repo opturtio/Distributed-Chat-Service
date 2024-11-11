@@ -3,3 +3,5 @@ This project is for the Distributed Systems course, which is part of the Master'
 
 # Documentation
 [Installation Guide](./doc/installation_guide.md)
+
+[User Manual](./doc/user_manual.md)
