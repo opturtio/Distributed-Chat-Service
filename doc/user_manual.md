@@ -22,7 +22,7 @@ flask run
 pip freeze > requirements.txt
 ```
 
-### Install requirements
+### Install requirements(used whenever requirements are added):
 ```bash
 pip install -r requirements.txt
 ```
