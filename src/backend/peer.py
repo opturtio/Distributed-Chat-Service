@@ -1,5 +1,7 @@
 import time
 import threading
+import socket
+import json
 
 class Peer:
     def __init__(self, host, port):
