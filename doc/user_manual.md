@@ -12,7 +12,7 @@ source venv/bin/activate
 deactivate
 ```
 
-### Run the program:
+### Run the program in src-folder:
 ```bash
 flask run
 ```
