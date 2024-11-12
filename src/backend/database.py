@@ -5,3 +5,7 @@ def insert_message(msg):
     db.session.execute(sql, {"msg":msg})
     db.session.commit()
 
+def insert_peer(user_id, name, ip):
+    sql = "INSERT INTO peers (user_id, name, ip) VALUES (:user_id, :name, :ip) VALUES ()"
+    db.session.execute(sql, {"user_id":user_id, "name":name, "ip":ip})
+    db.session.commit()
