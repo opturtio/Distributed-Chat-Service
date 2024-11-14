@@ -51,3 +51,24 @@ class Peer:
                     print(f"Resent message to {peer}")
                 except socket.error:
                     print(f"Retry failed for {peer}")
+
+    def listen_for_peers(self):
+        # Listens for incoming connections from other peers
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.bind((self.host, self.port))
+            s.listen()
+            while True:
+                conn, addr = s.accept()
+                threading.Thread(target=self.handle_peer, args=(conn, addr), daemon=True).start()
+
+    
+    def handle_peer(self, conn, addr):
+        # Handles incoming messages from a peer
+        with conn:
+            while True:
+                data = conn.recv(1024)
+                if not data:
+                    break
+                message = json.loads(data.decode())
+                print(f"Received message from {message['sender']}: {message['message']}")
+                self.chat_history.append(message)
