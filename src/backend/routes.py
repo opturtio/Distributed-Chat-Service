@@ -1,6 +1,11 @@
-from flask import render_template, jsonify, request
-from app import app
+from flask import render_template, jsonify, request, redirect
+from app import app, peer_instance
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
-    return render_template("index.html")
+    if request.method == "GET":
+        return render_template("index.html")
+    if request.method == "POST":
+        message = request.form["message"]
+        peer_instance.send_message(message)
+        return redirect("/")

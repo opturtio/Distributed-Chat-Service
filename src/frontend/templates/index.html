@@ -7,6 +7,10 @@
 </head>
 <body>
 
+<form id="form" method="POST">
+    <input type="text" id="message" name="message" placeholder="Enter your message">
+    <button type="submit">Send</button>
+</form>
 <div id="button-container"></div>
 
 <script src="{{ url_for('static', filename='js/send_button.js') }}"></script>

@@ -2,6 +2,7 @@ import time
 import threading
 import socket
 import json
+import logging
 
 class Peer:
     def __init__(self, host, port):
@@ -24,6 +25,10 @@ class Peer:
         msg = {"timestamp": timestamp, "sender": self.host, "message": message}
         self.chat_history.append(msg)
         self.broadcast_message(msg)
+        logging.basicConfig(level=logging.INFO)
+        logger = logging.getLogger(__name__)
+        logger.info(f"Message sent: {message}")
+
 
     def broadcast_message(self, message):
         # Attempts to send the message to each peer in the peer list

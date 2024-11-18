@@ -11,5 +11,7 @@ def main():
     peer.start()
     logger.info(f"Peer started at {peer.host}:{peer.port}")
 
+    return peer
+
 if __name__ == "__main__":
     main()
