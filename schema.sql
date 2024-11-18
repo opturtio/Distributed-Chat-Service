@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS messages (
     id SERIAL PRIMARY KEY,
+    sender TEXT,
     created_at TIMESTAMP,
     msg TEXT
 );

@@ -1,8 +1,8 @@
 from db import db
 
 def insert_message(msg):
-    sql = "INSERT INTO messages (msg, timestamp) VALUES (:msg, NOW())"
-    db.session.execute(sql, {"msg":msg})
+    sql = "INSERT INTO messages (msg, sender, timestamp) VALUES (:msg, :sender, :timestamp)"
+    db.session.execute(sql, {"msg":msg.message, "sender":msg.sender, "timestamp":msg.timestamp})
     db.session.commit()
 
 def insert_peer(user_id, name, ip):
