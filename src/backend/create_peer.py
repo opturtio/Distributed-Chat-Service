@@ -1,7 +1,7 @@
 import logging
 from backend.peer import Peer
 
-def main():
+def create_peer():
     """Initializes the peer"""
     
     logging.basicConfig(level=logging.INFO)
@@ -12,6 +12,3 @@ def main():
     logger.info(f"Peer started at {peer.host}:{peer.port}")
 
     return peer
-
-if __name__ == "__main__":
-    main()

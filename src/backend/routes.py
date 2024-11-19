@@ -1,5 +1,8 @@
 from flask import render_template, jsonify, request, redirect
-from app import app, peer_instance
+from app import app
+from backend.create_peer import create_peer
+
+peer_instance = create_peer()
 
 @app.route("/", methods=["GET", "POST"])
 def index():
