@@ -32,6 +32,11 @@ pip install -r requirements.txt
 touch .env
 ```
 
+### Generate and Add the Secret Key to the .env file:
+```bash
+python3 -c "import secrets; print(f'SECRET_KEY={secrets.token_hex(64)}')" >> .env
+```
+
 ### Add Database URL to .env-file:
 ```bash
 echo 'DATABASE_URL=postgresql:///user' >> .env
@@ -40,11 +45,6 @@ echo 'DATABASE_URL=postgresql:///user' >> .env
 ### Create the Database:
 ```bash
 psql -U postgres -d user < schema.sql
-```
-
-### Generate and Add the Secret Key to the .env file:
-```bash
-python3 -c "import secrets; print(f'SECRET_KEY={secrets.token_hex(64)}')" >> .env
 ```
 
 **Example .env-file:**
