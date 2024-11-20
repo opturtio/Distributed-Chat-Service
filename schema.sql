@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS messages (
 CREATE TABLE IF NOT EXISTS peers (
     id SERIAL PRIMARY KEY,
     user_id TEXT,
-    name TEXT,
-    ip TEXT
+    username TEXT,
+    ip TEXT,
+    priority INTEGER
 );

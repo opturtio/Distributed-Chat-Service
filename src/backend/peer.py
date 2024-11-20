@@ -9,7 +9,7 @@ class Peer:
         self.peers = []  # List of connected peers
         self.chat_history = []
         self.message_queue = []  # Queue for undelivered messages
-        self.retry_interval = 1  # Retry every 5 seconds
+        self.retry_interval = 1  # Retry every second
         logging.basicConfig(level=logging.INFO)
         self.logger = logging.getLogger(__name__)
 
