@@ -1,54 +1,130 @@
-/* This template was used https://codepen.io/kristinak/pen/bXqayB */
-
+/* General styles */
 * {
-    font-family: 'Avenir';
-  }
-  .bubbleWrapper {
-      padding: 10px 10px;
-      display: flex;
-      justify-content: flex-end;
-      flex-direction: column;
-      align-self: flex-end;
-    color: #fff;
-  }
-  .inlineContainer {
+    font-family: 'Avenir', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Chat container for messages */
+#chat-container {
+    padding-bottom: 70px; /* Avoid overlap with the form */
+    overflow-y: auto;
+    height: calc(100vh - 70px);
+}
+
+/* Bubble wrapper for each message */
+.bubbleWrapper {
+    padding: 10px 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Inline container for message content */
+.inlineContainer {
     display: inline-flex;
-  }
-  .inlineContainer.own {
+}
+
+/* Align own messages to the right */
+.inlineContainer.own {
     flex-direction: row-reverse;
-  }
-  .inlineIcon {
-    width:20px;
+}
+
+/* Images for chat bubbles */
+.inlineIcon {
+    width: 20px;
     object-fit: contain;
-  }
-  .ownBubble {
-      min-width: 60px;
-      max-width: 700px;
-      padding: 14px 18px;
+}
+
+/* Chat bubble styling for own messages */
+.ownBubble {
+    min-width: 60px;
+    max-width: 700px;
+    padding: 14px 18px;
     margin: 6px 8px;
-      background-color: #5b5377;
-      border-radius: 16px 16px 0 16px;
-      border: 1px solid #443f56;
-   
-  }
-  .otherBubble {
-      min-width: 60px;
-      max-width: 700px;
-      padding: 14px 18px;
+    background-color: #5b5377;
+    border-radius: 16px 16px 0 16px;
+    border: 1px solid #443f56;
+}
+
+/* Chat bubble styling for other messages */
+.otherBubble {
+    min-width: 60px;
+    max-width: 700px;
+    padding: 14px 18px;
     margin: 6px 8px;
-      background-color: #6C8EA4;
-      border-radius: 16px 16px 16px 0;
-      border: 1px solid #54788e;
-    
-  }
-  .own {
-      align-self: flex-end;
-  }
-  .other {
-      align-self: flex-start;
-  }
-  span.own,
-  span.other{
+    background-color: #6C8EA4;
+    border-radius: 16px 16px 16px 0;
+    border: 1px solid #54788e;
+}
+
+/* Align own messages to the right */
+.own {
+    align-self: flex-end;
+}
+
+/* Align other messages to the left */
+.other {
+    align-self: flex-start;
+}
+
+/* Timestamps for messages */
+span.own,
+span.other {
     font-size: 14px;
     color: grey;
-  }
+}
+
+/* Username styling for chat bubbles */
+.username {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    color: #ccc; /* Light gray for visibility */
+    margin-bottom: 4px; /* Spacing between username and message */
+}
+
+/* Adjust username color for own messages */
+.ownBubble .username {
+    color: #ddd; /* Slightly lighter gray for own messages */
+}
+
+.otherBubble .username {
+    color: #ccc; /* Slightly darker gray for other messages */
+}
+
+/* Chat form at the bottom */
+form {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background: #f3f3f3;
+    padding: 10px;
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Input field in the form */
+form input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+}
+
+/* Send button in the form */
+form button {
+    padding: 10px 20px;
+    background-color: #5b5377;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Hover effect for the send button */
+form button:hover {
+    background-color: #443f56;
+}

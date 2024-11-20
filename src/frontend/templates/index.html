@@ -1,64 +1,40 @@
-<!-- This template was used for chat bubbles https://codepen.io/kristinak/pen/bXqayB -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Button with JavaScript</title>
+    <title>P2P Chat</title>
     <link rel="stylesheet" href="static/styles/chat.css" />
 </head>
 <body>
 
-<form id="form" method="POST">
-    <input type="text" id="message" name="message" placeholder="Enter your message">
-    <button type="submit">Send</button>
-</form>
-<div id="button-container"></div>
-
-<div class="bubbleWrapper">
-    <div class="inlineContainer">
-        <img class="inlineIcon" src="https://cdn1.iconfinder.com/data/icons/ninja-things-1/1772/ninja-simple-512.png">
-        <div class="otherBubble other">
-            No ninjas!
+    <div id="chat-container">
+        <div class="bubbleWrapper">
+            <div class="inlineContainer">
+                <img class="inlineIcon" src="https://cdn1.iconfinder.com/data/icons/ninja-things-1/1772/ninja-simple-512.png">
+                <div class="otherBubble other">
+                    <span class="username">Peer 1</span>
+                    Peer's example text!
+                </div>
+            </div>
+            <span class="other">08:41:24</span>
         </div>
-    </div><span class="other">08:41</span>
-</div>
-<div class="bubbleWrapper">
-    <div class="inlineContainer own">
-        <img class="inlineIcon" src="https://www.pinclipart.com/picdir/middle/205-2059398_blinkk-en-mac-app-store-ninja-icon-transparent.png">
-        <div class="ownBubble own">
-         The first rule of being a ninja is, 'Do no harm.'
-        </div>
-    </div><span class="own">08:55</span>
-</div>
-<div class="bubbleWrapper">
-    <div class="inlineContainer">
-        <img class="inlineIcon" src="https://cdn1.iconfinder.com/data/icons/ninja-things-1/1772/ninja-simple-512.png">
-        <div class="otherBubble other">
-            Knowing when to leave requires training.
+        <div class="bubbleWrapper">
+            <div class="inlineContainer own">
+                <img class="inlineIcon" src="https://www.pinclipart.com/picdir/middle/205-2059398_blinkk-en-mac-app-store-ninja-icon-transparent.png">
+                <div class="ownBubble own">
+                    User's example text
+                </div>
+            </div>
+            <span class="own">08:41:25</span>
         </div>
     </div>
-</div><span class="other">10:13</span>
-<div class="bubbleWrapper">
-    <div class="inlineContainer own">
-        <img class="inlineIcon" src="https://www.pinclipart.com/picdir/middle/205-2059398_blinkk-en-mac-app-store-ninja-icon-transparent.png">
-        <div class="ownBubble own">
-        Stunned but impressed. 
-        </div>
-    </div><span class="own">11:07</span>
-</div>
-<div class="bubbleWrapper">
-    <div class="inlineContainer">
-        <img class="inlineIcon" src="https://cdn1.iconfinder.com/data/icons/ninja-things-1/1772/ninja-simple-512.png">
-        <div class="otherBubble other">
-            How about throwing stars?
-        </div>
-    </div><span class="other">11:11</span>
-</div>
 
-<script src="{{ url_for('static', filename='js/send_button.js') }}"></script>
+    <form id="form" method="POST">
+        <input type="text" id="message" name="message" placeholder="Enter your message">
+        <button type="submit">Send</button>
+    </form>
 
+    <script src="{{ url_for('static', filename='js/send_button.js') }}"></script>
 </body>
 </html>
-
