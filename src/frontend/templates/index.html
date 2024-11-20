@@ -8,32 +8,14 @@
 </head>
 <body>
 
-    <div id="chat-container">
-        <div class="bubbleWrapper">
-            <div class="inlineContainer">
-                <img class="inlineIcon" src="https://cdn1.iconfinder.com/data/icons/ninja-things-1/1772/ninja-simple-512.png">
-                <div class="otherBubble other">
-                    <span class="username">Peer 1</span>
-                    Peer's example text!
-                </div>
-            </div>
-            <span class="other">08:41:24</span>
-        </div>
-        <div class="bubbleWrapper">
-            <div class="inlineContainer own">
-                <img class="inlineIcon" src="https://www.pinclipart.com/picdir/middle/205-2059398_blinkk-en-mac-app-store-ninja-icon-transparent.png">
-                <div class="ownBubble own">
-                    User's example text
-                </div>
-            </div>
-            <span class="own">08:41:25</span>
-        </div>
-    </div>
+    <div id="chat-container"></div>
 
     <form id="form" method="POST">
         <input type="text" id="message" name="message" placeholder="Enter your message">
         <button type="submit">Send</button>
     </form>
+
+    <script src="static/js/chat_handler.js"></script>
 
     <script src="{{ url_for('static', filename='js/send_button.js') }}"></script>
 </body>
