@@ -17,7 +17,7 @@ class MessageManager:
             try:
                 self.connection_manager.send_to_peer(peer, message)
             except Exception:
-                self.logger.warning(f"Failed to send to {peer}. Adding to queue.")
+                self.logger.warning(f"Failed to send to {peer}. Adding message to queue.")
                 self.message_queue.append((peer, message))
 
     def retry_unsent_messages(self):

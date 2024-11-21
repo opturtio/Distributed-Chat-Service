@@ -1,70 +1,59 @@
-// Selects the chat container
+// Initialize Socket.IO connection
+const socket = io("http://localhost:5010");
+
+// Select the chat container
 const chatContainer = document.getElementById("chat-container");
 
 // Function to add a new message to the chat container
-function addMessageToChat(message, sender, isOwnMessage) {
-    // Create a wrapper for the message
+function addMessageToChat(message, sender, isOwnMessage, timestamp) {
+    alert("Adding message to chat:", message, sender);
     const bubbleWrapper = document.createElement("div");
     bubbleWrapper.classList.add("bubbleWrapper");
 
-    // Create inline container for the message and username
     const inlineContainer = document.createElement("div");
     inlineContainer.classList.add("inlineContainer");
     if (isOwnMessage) inlineContainer.classList.add("own");
 
-    // Create the chat bubble
     const bubble = document.createElement("div");
     bubble.classList.add(isOwnMessage ? "ownBubble" : "otherBubble");
     bubble.textContent = message;
 
-    // Add the sender's username
     const username = document.createElement("span");
     username.classList.add("username");
     username.textContent = sender;
-
-    // Add username above the message text
     bubble.prepend(username);
+
     inlineContainer.appendChild(bubble);
     bubbleWrapper.appendChild(inlineContainer);
 
-    // Add timestamp (Lets solve do we use the timestamp from database or we create new here)
-    const timestamp = document.createElement("span");
-    timestamp.classList.add(isOwnMessage ? "own" : "other");
-    timestamp.textContent = new Date().toLocaleTimeString();
-    bubbleWrapper.appendChild(timestamp);
+    const timeDisplay = document.createElement("span");
+    timeDisplay.classList.add(isOwnMessage ? "own" : "other");
+    timeDisplay.textContent = new Date(timestamp * 1000).toLocaleTimeString();
+    bubbleWrapper.appendChild(timeDisplay);
 
-    // Append the bubble to the chat container
     chatContainer.appendChild(bubbleWrapper);
-
-    // Scroll to the bottom of the chat container
     chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
-// Function to simulate receiving messages from peers
-function receivePeerMessage(message, sender) {
-    addMessageToChat(message, sender, false);
-}
+// Listen for new messages from the backend
+socket.on("new_message", (data) => {
+    alert("Message received from backend:", data);
+    const { message, sender, timestamp } = data;
+    addMessageToChat(message, sender, sender === "You", timestamp);
+});
 
-// Handle form submission for your own messages
-document.getElementById("form").addEventListener("submit", async (event) => {
-    event.preventDefault(); // Prevent the form from reloading the page
-
+// Handle form submission
+document.getElementById("form").addEventListener("submit", (event) => {
+    event.preventDefault();
     const messageInput = document.getElementById("message");
-    const message = messageInput.value.trim(); // Get the message text
-
+    const message = messageInput.value.trim();
     if (!message) return;
 
-    // Add the message to the chat as your own
-    addMessageToChat(message, "You", true);
+    const timestamp = Date.now() / 1000; // Send current time
+    addMessageToChat(message, "You", true, timestamp);
 
-    // Send the message to the backend
-    await fetch("/", {
-        method: "POST",
-        body: new URLSearchParams({ message }), // Send message as POST data
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-        },
-    });
+    // Emit the message to the backend
+    socket.emit("send_message", { message, sender: "You" });
 
     messageInput.value = ""; // Clear the input field
 });

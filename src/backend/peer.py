@@ -30,6 +30,4 @@ class Peer:
 
     def send_message(self, message):
         """Sends a message to all connected peers"""
-        timestamp = time.time()
-        msg = {"timestamp": timestamp, "sender": self.host, "message": message}
-        self.message_manager.broadcast_message(msg)
+        self.message_manager.broadcast_message(message)

@@ -2,12 +2,14 @@ from db import db
 import json
 from sqlalchemy import text
 from datetime import datetime
+from app import app
 
 def insert_message(msg):
     created_at = datetime.fromtimestamp(msg["timestamp"])
     sql = text("INSERT INTO messages (msg, sender, created_at) VALUES (:msg, :sender, :created_at)")
     db.session.execute(sql, {"msg": msg["message"], "sender": msg["sender"], "created_at": created_at})
     db.session.commit()
+    app.logger.info(f"Message inserted into DB: {msg}")
 
 
 def insert_peer(user_id, name, ip, priority):
