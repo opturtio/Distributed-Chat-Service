@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Python Logger's log-files
+P2PChat.log
+P2PChat.log.*
+
 # C extensions
 *.so
 

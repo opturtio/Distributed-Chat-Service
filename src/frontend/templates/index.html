@@ -10,13 +10,11 @@
 
     <div id="chat-container"></div>
 
-    <form id="form" method="POST">
+    <form id="form">
         <input type="text" id="message" name="message" placeholder="Enter your message">
         <button type="submit">Send</button>
     </form>
 
     <script src="static/js/chat_handler.js"></script>
-
-    <script src="{{ url_for('static', filename='js/send_button.js') }}"></script>
 </body>
 </html>
