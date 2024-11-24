@@ -12,9 +12,7 @@ def index():
 
 @app.route("/send_message", methods=["POST"])
 def send_message():
-    """
-    API endpoint to send a message from the frontend.
-    """
+    """API endpoint to send a message from the frontend."""
     data = request.json
     message = {
         "timestamp": data.get("timestamp"),
