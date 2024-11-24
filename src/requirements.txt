@@ -2,7 +2,6 @@ bidict==0.23.1
 blinker==1.9.0
 click==8.1.7
 Flask==3.0.3
-Flask-SocketIO==5.4.1
 Flask-SQLAlchemy==3.1.1
 greenlet==3.1.1
 h11==0.14.0
@@ -12,7 +11,6 @@ MarkupSafe==3.0.2
 psycopg2==2.9.10
 python-dotenv==1.0.1
 python-engineio==4.10.1
-python-socketio==5.11.4
 simple-websocket==1.1.0
 SQLAlchemy==2.0.36
 typing_extensions==4.12.2
