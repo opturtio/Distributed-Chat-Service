@@ -1,12 +1,8 @@
-// Initialize Socket.IO connection
-const socket = io("http://localhost:5010");
-
-// Select the chat container
+// Chat container
 const chatContainer = document.getElementById("chat-container");
 
 // Function to add a new message to the chat container
 function addMessageToChat(message, sender, isOwnMessage, timestamp) {
-    alert("Adding message to chat:", message, sender);
     const bubbleWrapper = document.createElement("div");
     bubbleWrapper.classList.add("bubbleWrapper");
 
@@ -35,13 +31,6 @@ function addMessageToChat(message, sender, isOwnMessage, timestamp) {
     chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
-// Listen for new messages from the backend
-socket.on("new_message", (data) => {
-    alert("Message received from backend:", data);
-    const { message, sender, timestamp } = data;
-    addMessageToChat(message, sender, sender === "You", timestamp);
-});
-
 // Handle form submission
 document.getElementById("form").addEventListener("submit", (event) => {
     event.preventDefault();
@@ -49,11 +38,30 @@ document.getElementById("form").addEventListener("submit", (event) => {
     const message = messageInput.value.trim();
     if (!message) return;
 
-    const timestamp = Date.now() / 1000; // Send current time
+    const timestamp = Date.now() / 1000;
+
+    // Add to local chat
     addMessageToChat(message, "You", true, timestamp);
 
-    // Emit the message to the backend
-    socket.emit("send_message", { message, sender: "You" });
+    // Send message to the backend
+    fetch("/send_message", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            sender: "You",
+            message: message,
+            timestamp: timestamp,
+        }),
+    });
 
     messageInput.value = ""; // Clear the input field
 });
+
+// Fetch messages from the backend
+fetch("/messages")
+    .then((response) => response.json())
+    .then((messages) => {
+        messages.forEach((msg) => {
+            addMessageToChat(msg.message, msg.sender, false, msg.timestamp);
+        });
+    });

@@ -9,4 +9,4 @@ socketio = SocketIO(app)
 from backend import routes # noqa: E402, F401
 
 if __name__ == "__main__":
-    socketio.run(app, debug=True)
+    app.run(debug=True, port=8080)
