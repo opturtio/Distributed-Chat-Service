@@ -6,7 +6,7 @@ class Peer:
     def __init__(self, host, port):
         self.host = host
         self.port = port
-        self.peers = []
+        self.peers = [('87.95.16.123', 8080)]
         self.connection_manager = ConnectionManager(self.host, self.port, self.peers)
         self.message_manager = MessageManager(self.connection_manager)
 

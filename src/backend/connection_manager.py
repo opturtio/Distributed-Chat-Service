@@ -44,6 +44,14 @@ class ConnectionManager:
 
     def send_to_peer(self, peer, message):
         """Sends a message to a specific peer."""
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-            client_socket.connect(peer)
-            client_socket.sendall(json.dumps(message).encode())
+        logger.info(f"connection_manager send_to_peer: Sending message to {peer}: {message}")
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+                client_socket.settimeout(5)  # Set a timeout of 10 seconds
+                client_socket.connect(peer)
+                client_socket.sendall(json.dumps(message).encode())
+                logger.info(f"Sent message to {peer}: {message}")
+        except socket.timeout:
+            logger.error(f"Timeout occurred while trying to connect to {peer}")
+        except Exception as e:
+            logger.error(f"Failed to send message to {peer}: {e}")
