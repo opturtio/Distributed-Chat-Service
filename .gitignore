@@ -7,6 +7,9 @@ __pycache__/
 P2PChat.log
 P2PChat.log.*
 
+# macOS-file
+.DS_Store
+
 # C extensions
 *.so
 
