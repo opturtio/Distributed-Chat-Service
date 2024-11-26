@@ -12,9 +12,9 @@ class MessageManager:
         # Adds a timestamp and sends the message to all peers
         peers = self.connection_manager.peers
         insert_message(message) # Have to figure out best place for this
-        logger.info(f"Broadcasting message: {message}")
+        logger.info(f"message_manager/broadcast_message: Broadcasting message: {message}")
         for peer in peers:
-            logger.info(f"message_manager broadcast_message: peer {peer}")
+            logger.info(f"message_manager/broadcast_message: peer {peer}")
             try:
                 self.connection_manager.send_to_peer(peer, message)
             except Exception:
@@ -29,6 +29,6 @@ class MessageManager:
                 try:
                     self.send_to_peer(peer, message)
                     self.message_queue.remove((peer, message))  # Remove on success
-                    logger.info(f"Successfully resent message to {peer}")
+                    logger.info(f"message_manager/retry_unsent_messages: Successfully resent message to {peer}")
                 except Exception:
-                    logger.warning(f"Retry failed for {peer}")
+                    logger.warning(f"message_manager/retry_unsent_messages: Retry failed for {peer}")
