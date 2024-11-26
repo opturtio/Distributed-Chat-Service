@@ -51,7 +51,7 @@ document.getElementById("form").addEventListener("submit", (event) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            sender: "You",
+            sender: "Kissa8080",
             message: message,
             timestamp: timestamp,
         }),

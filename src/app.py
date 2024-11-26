@@ -7,4 +7,4 @@ app.secret_key = getenv("SECRET_KEY")
 from backend import routes # noqa: E402, F401
 
 if __name__ == "__main__":
-    app.run(debug=True, port=6060)
+    app.run(debug=True, port=8080)

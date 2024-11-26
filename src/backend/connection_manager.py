@@ -15,7 +15,7 @@ class ConnectionManager:
     def listen_for_peers(self):
         """Starts a socket server to listen for incoming connections."""
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
-            server_socket.bind(("0.0.0.0", self.port))
+            server_socket.bind((self.host, self.port))
             server_socket.listen()
             logger.info(f"connection_manager/listen_for_peers: Listening on {self.host}:{self.port}")
             while True:
