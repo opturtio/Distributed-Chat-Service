@@ -20,5 +20,5 @@ def send_message():
         "message": data.get("message"),
     }
     peer.send_message(message)
-    logger.info("routes.py: Message sent!")
+    logger.info("routes/send_message: Message sent {message}!")
     return jsonify({"status": "Message sent", "message": message}), 200
