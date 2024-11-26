@@ -2,6 +2,9 @@ import socket
 import threading
 import json
 from logger import logger
+from queue import Queue
+
+frontend_message_queue = Queue()
 
 class ConnectionManager:
     def __init__(self, host, port, peers):
@@ -32,7 +35,10 @@ class ConnectionManager:
 
     def process_message(self, message):
         """Processes an incoming message."""
-        logger.info(f"connection_manager/process_message: Processing message: {message}")
+        frontend_message_queue.put(message)
+        logger.info(f"connection_manager/process_message: Message added to queue: {message}")
+        logger.info(f"connection_manager/process_message: Queue size: {frontend_message_queue.qsize()}")
+        
 
     def broadcast_message(self, message):
         """Broadcasts a message to all connected peers."""

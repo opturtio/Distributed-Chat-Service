@@ -1,6 +1,9 @@
 // Chat container
 const chatContainer = document.getElementById("chat-container");
 
+// Server-Sent Events (SSE) to listen for messages
+const eventSource = new EventSource("/stream_messages");
+
 // Function to add a new message to the chat container
 function addMessageToChat(message, sender, isOwnMessage, timestamp) {
     const bubbleWrapper = document.createElement("div");
@@ -65,3 +68,10 @@ fetch("/messages")
             addMessageToChat(msg.message, msg.sender, false, msg.timestamp);
         });
     });
+
+// Listens for incoming messages from the server via Server-Sent Events (SSE)
+eventSource.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    const { message, sender, timestamp } = data;
+    addMessageToChat(message, sender, sender === "You", timestamp);
+};
