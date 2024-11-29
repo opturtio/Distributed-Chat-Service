@@ -1,20 +1,28 @@
 import time
 from logger import logger
-from backend.database import insert_message
 
 class MessageManager:
+    """Handles the broadcasting and retrying of unsent messages."""
+
     def __init__(self, connection_manager):
+        """Initializes the message manager.
+
+        Args:
+            connection_manager (ConnectionManager): The connection manager to use for sending messages.
+        """
         self.connection_manager = connection_manager
         self.message_queue = []
         self.retry_interval = 1
 
     def broadcast_message(self, message):
-        # Adds a timestamp and sends the message to all peers
+        """Broadcasts a message to all peers.
+
+        Args:
+            message (dict): The message to broadcast.
+        """
         peers = self.connection_manager.peers
-        insert_message(message) # Have to figure out best place for this
-        logger.info(f"message_manager/broadcast_message: Broadcasting message: {message}")
+        logger.info(f"Broadcasting message: {message}")
         for peer in peers:
-            logger.info(f"message_manager/broadcast_message: peer {peer}")
             try:
                 self.connection_manager.send_to_peer(peer, message)
             except Exception:
@@ -22,13 +30,13 @@ class MessageManager:
                 self.message_queue.append((peer, message))
 
     def retry_unsent_messages(self):
-        # Retries sending messages in the queue periodically
+        """Retries sending unsent messages periodically."""
         while True:
             time.sleep(self.retry_interval)
             for peer, message in self.message_queue[:]:
                 try:
-                    self.send_to_peer(peer, message)
-                    self.message_queue.remove((peer, message))  # Remove on success
-                    logger.info(f"message_manager/retry_unsent_messages: Successfully resent message to {peer}")
+                    self.connection_manager.send_to_peer(peer, message)
+                    self.message_queue.remove((peer, message))
+                    logger.info(f"Successfully resent message to {peer}")
                 except Exception:
-                    logger.warning(f"message_manager/retry_unsent_messages: Retry failed for {peer}")
+                    logger.warning(f"Retry failed for {peer}")
