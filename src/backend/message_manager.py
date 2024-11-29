@@ -21,8 +21,9 @@ class MessageManager:
             message (dict): The message to broadcast.
         """
         peers = self.connection_manager.peers
-        logger.info(f"Broadcasting message: {message}")
+        logger.info(f"message_manager/broadcast_message: Broadcasting message: {message}")
         for peer in peers:
+            logger.info(f"message_manager/broadcast_message: peer {peer}")
             try:
                 self.connection_manager.send_to_peer(peer, message)
             except Exception:
@@ -36,7 +37,7 @@ class MessageManager:
             for peer, message in self.message_queue[:]:
                 try:
                     self.connection_manager.send_to_peer(peer, message)
-                    self.message_queue.remove((peer, message))
-                    logger.info(f"Successfully resent message to {peer}")
+                    self.message_queue.remove((peer, message))  # Remove on success
+                    logger.info(f"message_manager/retry_unsent_messages: Successfully resent message to {peer}")
                 except Exception:
-                    logger.warning(f"Retry failed for {peer}")
+                    logger.warning(f"message_manager/retry_unsent_messages: Retry failed for {peer}")

@@ -1,5 +1,6 @@
 import time
 from backend.peer import Peer
+from backend.connection_manager import frontend_message_queue
 
 def console_menu(peer):
     """Provides a console-based menu for user interaction.
@@ -7,6 +8,8 @@ def console_menu(peer):
     Args:
         peer (Peer): The peer instance managing network communication.
     """
+    user_name = input("Enter username: ")
+    
     while True:
         print("\nOptions:")
         print("1. Send a message")
@@ -15,7 +18,7 @@ def console_menu(peer):
         choice = input("Enter your choice: ")
 
         if choice == "1":
-            send_message_cli(peer)
+            send_message_cli(peer, user_name)
         elif choice == "2":
             view_messages_cli()
         elif choice == "3":
@@ -24,14 +27,14 @@ def console_menu(peer):
         else:
             print("Invalid choice. Try again.")
 
-def send_message_cli(peer):
+def send_message_cli(peer, user_name):
     """Sends a message via the command line interface.
 
     Args:
         peer (Peer): The peer instance managing network communication.
     """
     message = input("Enter your message: ")
-    peer.send_message({"timestamp": time.time(), "sender": "ConsoleUser", "message": message})
+    peer.send_message({"timestamp": time.time(), "sender": user_name, "message": message})
 
 def view_messages_cli():
     """Displays messages received from other peers."""

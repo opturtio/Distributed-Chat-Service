@@ -1,6 +1,7 @@
 import threading
 from backend.connection_manager import ConnectionManager
 from backend.message_manager import MessageManager
+from logger import logger
 
 class Peer:
     """Represents a peer in the P2P network."""
@@ -17,9 +18,11 @@ class Peer:
         self.peers = [('127.0.0.1', 6060)]  # Example connected peer
         self.connection_manager = ConnectionManager(self.host, self.port, self.peers)
         self.message_manager = MessageManager(self.connection_manager)
+        logger.info(f"peer/init: Peer initialized with host={host}, port={port}")
 
     def start(self):
         """Starts the peer's connection listener and message retry threads."""
+        logger.info("peer/start: Starting peer services.")
         threading.Thread(target=self.connection_manager.listen_for_peers, daemon=True).start()
         threading.Thread(target=self.message_manager.retry_unsent_messages, daemon=True).start()
 
@@ -29,4 +32,5 @@ class Peer:
         Args:
             message (dict): The message to send.
         """
+        logger.info(f"peer/send_message: Sending message: {message}")
         self.message_manager.broadcast_message(message)
