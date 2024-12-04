@@ -86,3 +86,4 @@ class ConnectionManager:
                 logger.info(f"connection_manager/send_to_peer: Sent message to {peer}: {message}")
         except Exception as e:
             logger.error(f"connection_manager/send_to_peer: Failed to send message to {peer}: {e}")
+            raise
