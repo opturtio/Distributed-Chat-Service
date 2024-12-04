@@ -37,6 +37,11 @@ def send_message_cli(peer, user_name, messages):
 
     Args:
         peer (Peer): The peer instance managing network communication.
+        user_name (str): The name of the user sending the message.
+        messages (list): The list of sent and received messages.
+    
+    Returns:
+        messages (list): The updated list of messages.
     """
     message_content = input("Enter your message: ")
     message = {"timestamp": time.time(), "sender": user_name, "message": message_content}
@@ -47,7 +52,14 @@ def send_message_cli(peer, user_name, messages):
     return messages
 
 def view_messages_cli(messages):
-    """Displays messages received from other peers."""
+    """Displays messages received from other peers.
+    
+    Args:
+        messages (list): The list of sent and received messages.
+    
+    Returns:
+        messages (list): The updated list of messages.
+    """
     while not frontend_message_queue.empty():
         message = frontend_message_queue.get()
         messages.append(message)
