@@ -25,7 +25,7 @@ class Peer:
         self.connection_manager = ConnectionManager(self.host, self.port, self.peers)
         self.message_manager = MessageManager(self.connection_manager)
         self.leader_manager = LeaderManager(self.node_id, self.connection_manager, self.message_manager)
-        self.bully_algorithm = BullyAlgorithm(self.node_id, 1, self.peers)
+        self.bully_algorithm = BullyAlgorithm(self.node_id, self.priority, self.peers)
         logger.info(f"peer/init: Peer initialized with host={host}, port={port}")
 
     def start(self):

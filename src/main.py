@@ -1,6 +1,6 @@
 import time
 from backend.peer import Peer
-from backend.connection_manager import frontend_message_queue
+from backend.connection_manager import received_messages
 
 def console_menu(peer):
     """Provides a console-based menu for user interaction.
@@ -60,8 +60,8 @@ def view_messages_cli(messages):
     Returns:
         messages (list): The updated list of messages.
     """
-    while not frontend_message_queue.empty():
-        message = frontend_message_queue.get()
+    while not received_messages.empty():
+        message = received_messages.get()
         messages.append(message)
         if len(messages) > 10:
             messages.pop(0)

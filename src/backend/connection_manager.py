@@ -4,7 +4,7 @@ import json
 from logger import logger
 from queue import Queue
 
-frontend_message_queue = Queue()
+received_messages = Queue()
 
 class ConnectionManager:
     """Manages peer-to-peer connections, message handling, and broadcasting."""
@@ -54,22 +54,9 @@ class ConnectionManager:
         Args:
             message (dict): The message received from a peer.
         """
-        frontend_message_queue.put(message)
+        received_messages.put(message)
         logger.info(f"connection_manager/process_message: Message added to queue: {message}")
-        logger.info(f"connection_manager/process_message: Queue size: {frontend_message_queue.qsize()}")
-
-    def broadcast_message(self, message):
-        """Broadcasts a message to all connected peers.
-
-        Args:
-            message (dict): The message to broadcast.
-        """
-        for peer in self.peers:
-            try:
-                self.send_to_peer(peer, message)
-                logger.info(f"connection_manager/broadcast_message: Sent message to {peer}: {message}")
-            except Exception as e:
-                logger.error(f"connection_manager/broadcast_message: Failed to send message to {peer}: {e}")
+        logger.info(f"connection_manager/process_message: Queue size: {received_messages.qsize()}")
 
     def send_to_peer(self, peer, message):
         """Sends a message to a specific peer.
@@ -88,6 +75,21 @@ class ConnectionManager:
             logger.error(f"connection_manager/send_to_peer: Failed to send message to {peer}: {e}")
             raise
     
+    def ping_peer(self, peer):
+        """Pings a peer to check for leadership status."""
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+                client_socket.settimeout(5)
+                client_socket.connect(peer)
+                ping_message = {"type": "leader_request"}
+                client_socket.sendall(json.dumps(ping_message).encode())
+                
+                data = client_socket.recv(1024)
+                return json.loads(data.decode())
+        except Exception as e:
+            logger.error(f"connection_manager/ping_peer: Failed to ping peer {peer}: {e}")
+            return {}
+        
     def count_peers(self):
         """Returns the number of connected peers."""
         pass
