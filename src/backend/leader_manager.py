@@ -2,7 +2,7 @@ import threading
 
 class LeaderManager:
 
-    def __init__(self, node_id, connection_manager, message_queue):
+    def __init__(self, node_id, connection_manager, message_manager):
         """
         Manages leader status.
         
@@ -12,7 +12,7 @@ class LeaderManager:
         """
         self.node_id = node_id
         self.connection_manager = connection_manager
-        self.message_queue = message_queue
+        self.message_queue = message_manager.message_queue
         self.is_leader = False 
         self.processed_messages = []
 

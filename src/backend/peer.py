@@ -1,7 +1,10 @@
 import threading
 from backend.connection_manager import ConnectionManager
 from backend.message_manager import MessageManager
+from backend.leader_manager import LeaderManager
 from logger import logger
+import secrets
+
 
 class Peer:
     """Represents a peer in the P2P network."""
@@ -18,6 +21,7 @@ class Peer:
         self.peers = [('127.0.0.1', 6060)]  # Example connected peer
         self.connection_manager = ConnectionManager(self.host, self.port, self.peers)
         self.message_manager = MessageManager(self.connection_manager)
+        self.leader_manager = LeaderManager(secrets.token_hex(64), self.connection_manager, self.message_manager)
         logger.info(f"peer/init: Peer initialized with host={host}, port={port}")
 
     def start(self):
