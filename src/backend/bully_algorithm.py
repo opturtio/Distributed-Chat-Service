@@ -22,7 +22,7 @@ class BullyAlgorithm:
             return False
     
     def start_election(self):
-        higher_priority_peers = [peer for peer in self.peers if peer[1] > self.priority]
+        higher_priority_peers = [peer for peer in self.peers if peer.priority > self.priority]
 
         if not higher_priority_peers:
             # If no higher-priority peers exist, declare self as leader

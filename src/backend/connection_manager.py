@@ -87,3 +87,7 @@ class ConnectionManager:
         except Exception as e:
             logger.error(f"connection_manager/send_to_peer: Failed to send message to {peer}: {e}")
             raise
+    
+    def count_peers(self):
+        """Returns the number of connected peers."""
+        pass
