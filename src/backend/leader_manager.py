@@ -4,12 +4,11 @@ class LeaderManager:
 
     def __init__(self, node_id, connection_manager, message_queue):
         """
-        Manages leader election and message processing logic.
+        Manages leader status.
         
         Args:
             node_id (str): The ID of the current node.
             connection_manager (ConnectionManager): The connection manager for peer communication.
-            message_queue (Queue): Queue to process messages in order.
         """
         self.node_id = node_id
         self.connection_manager = connection_manager
