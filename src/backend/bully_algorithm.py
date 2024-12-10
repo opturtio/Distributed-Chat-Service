@@ -3,12 +3,13 @@ import time
 from logger import logger
 
 class BullyAlgorithm:
-    def __init__(self, node_id, peers):
+    def __init__(self, node_id, peers, connection_manager):
         self.node_id = node_id
         self.priority = 1
         self.peers = peers
         self.leader = None
         self.peer_priorities = {}
+        self.connection_manager = connection_manager
         self.update_peer_priorities()
     
     def update_peer_priorities(self):
