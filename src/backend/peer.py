@@ -20,12 +20,11 @@ class Peer:
         self.host = host
         self.port = port
         self.node_id = secrets.token_hex(64)
-        self.priority = self.form_priority()
         self.peers = [('127.0.0.1', 6060)]  # Example connected peer
         self.connection_manager = ConnectionManager(self.host, self.port, self.peers)
         self.message_manager = MessageManager(self.connection_manager)
         self.leader_manager = LeaderManager(self.node_id, self.connection_manager, self.message_manager)
-        self.bully_algorithm = BullyAlgorithm(self.node_id, self.priority, self.peers)
+        self.bully_algorithm = BullyAlgorithm(self.node_id, self.peers)
         logger.info(f"peer/init: Peer initialized with host={host}, port={port}")
 
     def start(self):
@@ -42,6 +41,3 @@ class Peer:
         """
         logger.info(f"peer/send_message: Sending message: {message}")
         self.message_manager.broadcast_message(message)
-
-    def form_priority(self):
-        return self.connection_manager.count_peers()
