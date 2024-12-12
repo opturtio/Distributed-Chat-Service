@@ -48,7 +48,6 @@ class ConnectionManager:
                 message = json.loads(data.decode())
                 logger.info(f"connection_manager/handle_peer: Received message: {message}")
                 self.process_message(message)
-                print(f"Your current priority is {self.priority}")
                 
                 if message.get("type") == "ping":
                     response = {"type": "pong", "status": "alive"}
@@ -79,6 +78,7 @@ class ConnectionManager:
             message (dict): The message to send.
         """
         logger.info(f"connection_manager/send_to_peer: Sending message to {peer}: {message}")
+        print(f"Your current priority is {self.priority}")
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
                 client_socket.connect(peer)
