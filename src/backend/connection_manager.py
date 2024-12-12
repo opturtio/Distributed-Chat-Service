@@ -20,6 +20,7 @@ class ConnectionManager:
         self.host = host
         self.port = port
         self.peers = peers
+        self.priority = 1
 
     def listen_for_peers(self):
         """Starts a socket server to listen for incoming connections."""
@@ -54,9 +55,9 @@ class ConnectionManager:
                     logger.info(f"connection_manager/handle_peer: Sent pong response to {addr}")
 
                 elif message.get("type") == "increase_priority":
-                    self.priority[addr] += 1
-                    logger.info(f"connection_manager/handle_peer: Increased priority for {addr}: {self.priority[addr]}")
-                    response = {"type": "priority_updated", "priority": self.priority[addr]}
+                    self.priority += 1
+                    logger.info(f"connection_manager/handle_peer: Increased priority for {addr}: {self.priority}")
+                    response = {"type": "priority_updated", "priority": self.priority}
                     conn.sendall(json.dumps(response).encode())
 
     def process_message(self, message):
