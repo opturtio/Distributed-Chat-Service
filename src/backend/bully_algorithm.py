@@ -20,9 +20,12 @@ class BullyAlgorithm:
         print(f"Your current priority is {self.priority}")
 
     def find_leader(self):
+        print("bully_algorithm/find_leader: Finding leader...")
         try:
             self.leader = self.connection_manager.find_leader()
+            print(f"bully_algorithm/find_leader: Found leader, leader is {self.leader}")
         except:
+            print("bully_algorithm/find_leader: Failed to find leader. Assigning self as leader.")
             self.leader = self.node
         
 

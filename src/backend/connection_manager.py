@@ -124,15 +124,18 @@ class ConnectionManager:
                     message = {"type": "leader_query"}
                     client_socket.sendall(json.dumps(message).encode())
                     logger.info(f"connection_manager/find_leader: Sent leader query to {peer}")
+                    print(f"connection_manager/find_leader: Sent leader query to {peer}")
 
                     data = client_socket.recv(1024)
                     response = json.loads(data.decode())
                     if response.get("type") == "leader_response":
                         leader = response.get("leader")
                         logger.info(f"connection_manager/find_leader: Leader is {leader}")
+                        print(f"connection_manager/find_leader: Found leader, leader is {leader}")
                         return leader
             except Exception as e:
                 logger.error(f"connection_manager/find_leader: Failed to query leader from {peer}: {e}")
+                print(f"connection_manager/find_leader: Failed to query leader from {peer}: {e}")
         return None
 
     def send_priority_increment(self, peer):
