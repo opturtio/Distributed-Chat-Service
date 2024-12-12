@@ -1,6 +1,7 @@
 import time
 from backend.peer import Peer
 from backend.connection_manager import received_messages
+from backend.bully_algorithm import show_leader
 
 def console_menu(peer):
     """Provides a console-based menu for user interaction.
@@ -15,7 +16,8 @@ def console_menu(peer):
         print("\nOptions:")
         print("1. Send a message")
         print("2. View messages")
-        print("3. Exit")
+        print("3. View leader")
+        print("4. Exit")
         choice = input("Enter your choice: ")
 
         if choice == "1":
@@ -27,6 +29,8 @@ def console_menu(peer):
             for message in messages:
                 print(f"{message['sender']}: {message['message']}")
         elif choice == "3":
+            print(f"Leader: {show_leader()}")
+        elif choice == "4":
             print("Exiting...")
             break
         else:
