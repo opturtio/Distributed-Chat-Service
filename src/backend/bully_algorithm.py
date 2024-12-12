@@ -75,6 +75,3 @@ class BullyAlgorithm:
 
     def receive_leader_announcement(self, leader_id):
         self.leader = leader_id
-
-    def show_leader(self):
-        return self.leader
