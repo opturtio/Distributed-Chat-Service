@@ -14,10 +14,11 @@ class BullyAlgorithm:
     
     def update_peer_priorities(self):
         """Contacts peers and increases their priority."""
-        logger.info("bully_algorithm/update_peer_priorities: Updating peer priorities...")
+        print("bully_algorithm/update_peer_priorities: Updating peer priorities...")
         self.connection_manager.contact_peers_and_increase_priority()
-        logger.info("bully_algorithm/update_peer_priorities: Peer priorities updated.")
-        logger.info("Your current priority is {self.priority}")
+        self.priority = self.connection_manager.fetch_priority()
+        print("bully_algorithm/update_peer_priorities: Peer priorities updated.")
+        print("Your current priority is {self.priority}")
 
     
     def check_leader(self):

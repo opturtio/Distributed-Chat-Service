@@ -130,3 +130,6 @@ class ConnectionManager:
                 self.send_priority_increment(peer)
             else:
                 logger.warning(f"connection_manager/contact_peers_and_increase_priority: Peer {peer} did not respond.")
+
+    def fetch_priority(self):
+        return self.priority
