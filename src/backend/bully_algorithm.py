@@ -22,9 +22,10 @@ class BullyAlgorithm:
     def find_leader(self):
         print("bully_algorithm/find_leader: Finding leader...")
         found = self.connection_manager.find_leader()
-        if found[1]:
-            self.leader = found[0]
-            print(f"bully_algorithm/find_leader: Found leader, leader is {self.leader}")    
+        if found:
+            if found[1]:
+                self.leader = found[0]
+                print(f"bully_algorithm/find_leader: Found leader, leader is {self.leader}")    
         else:
             self.leader = self.node_id
             print("bully_algorithm/find_leader: Failed to find leader. Assigning self as leader.")
