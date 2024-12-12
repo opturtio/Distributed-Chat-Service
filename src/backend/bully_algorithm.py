@@ -1,5 +1,3 @@
-import threading
-import time
 from logger import logger
 
 class BullyAlgorithm:
@@ -11,6 +9,7 @@ class BullyAlgorithm:
         self.peer_priorities = {}
         self.connection_manager = connection_manager
         self.update_peer_priorities()
+        self.find_leader()
     
     def update_peer_priorities(self):
         """Contacts peers and increases their priority."""
@@ -19,6 +18,13 @@ class BullyAlgorithm:
         self.priority = self.connection_manager.fetch_priority()
         print("bully_algorithm/update_peer_priorities: Peer priorities updated.")
         print(f"Your current priority is {self.priority}")
+
+    def find_leader(self):
+        try:
+            self.leader = self.connection_manager.find_leader()
+        except:
+            self.leader = self.node
+        
 
     
     def check_leader(self):
@@ -29,8 +35,7 @@ class BullyAlgorithm:
     def ping_leader(self):
         # Simulate a ping to the leader (e.g., using a socket or message)
         try:
-            # Ping logic here
-            pass
+            self.connection_manager.find_leader()
         except:
             return False
     

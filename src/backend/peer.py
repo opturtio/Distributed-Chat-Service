@@ -21,7 +21,7 @@ class Peer:
         self.port = port
         self.node_id = secrets.token_hex(64)
         self.peers = [('128.214.11.91', 6060)]  # Example connected peer
-        self.connection_manager = ConnectionManager(self.host, self.port, self.peers)
+        self.connection_manager = ConnectionManager(self.host, self.port, self.peers, self.node_id)
         self.message_manager = MessageManager(self.connection_manager)
         self.leader_manager = LeaderManager(self.node_id, self.connection_manager, self.message_manager)
         self.bully_algorithm = BullyAlgorithm(self.node_id, self.peers, self.connection_manager)
@@ -40,4 +40,5 @@ class Peer:
             message (dict): The message to send.
         """
         logger.info(f"peer/send_message: Sending message: {message}")
+        #self.bully_algorithm.check_leader()
         self.message_manager.broadcast_message(message)

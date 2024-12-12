@@ -9,7 +9,7 @@ received_messages = Queue()
 class ConnectionManager:
     """Manages peer-to-peer connections, message handling, and broadcasting."""
 
-    def __init__(self, host, port, peers):
+    def __init__(self, host, port, peers, node_id):
         """Initializes the connection manager.
 
         Args:
@@ -17,10 +17,12 @@ class ConnectionManager:
             port (int): The port number for the connection manager.
             peers (list): A list of connected peers as (host, port) tuples.
         """
+        self.node_id = node_id
         self.host = host
         self.port = port
         self.peers = peers
         self.priority = 1
+        self.is_leader = False
 
     def listen_for_peers(self):
         """Starts a socket server to listen for incoming connections."""
@@ -53,6 +55,12 @@ class ConnectionManager:
                     response = {"type": "pong", "status": "alive"}
                     conn.sendall(json.dumps(response).encode())
                     logger.info(f"connection_manager/handle_peer: Sent pong response to {addr}")
+
+                if message.get("type") == "leader_query": 
+                    if self.is_leader: 
+                        response = {"type": "leader_response", "leader": self.node_id}
+                        conn.sendall(json.dumps(response).encode())
+                        logger.info(f"connection_manager/handle_peer: Sent leader response to {addr}")
 
                 elif message.get("type") == "increase_priority":
                     self.priority += 1
@@ -106,6 +114,26 @@ class ConnectionManager:
         except Exception as e:
             logger.error(f"connection_manager/ping_peer: Failed to ping peer {peer}: {e}")
         return False
+    
+    def find_leader(self):
+        """Finds the current leader in the network."""
+        for peer in self.peers:
+            try:
+                with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+                    client_socket.connect(peer)
+                    message = {"type": "leader_query"}
+                    client_socket.sendall(json.dumps(message).encode())
+                    logger.info(f"connection_manager/find_leader: Sent leader query to {peer}")
+
+                    data = client_socket.recv(1024)
+                    response = json.loads(data.decode())
+                    if response.get("type") == "leader_response":
+                        leader = response.get("leader")
+                        logger.info(f"connection_manager/find_leader: Leader is {leader}")
+                        return leader
+            except Exception as e:
+                logger.error(f"connection_manager/find_leader: Failed to query leader from {peer}: {e}")
+        return None
 
     def send_priority_increment(self, peer):
         """Sends a message to increase the peer's priority."""
