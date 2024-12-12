@@ -120,7 +120,6 @@ class ConnectionManager:
         for peer in self.peers:
             try:
                 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-                    client_socket.settimeout(5)
                     client_socket.connect(peer)
                     message = {"type": "leader_query"}
                     client_socket.sendall(json.dumps(message).encode())
@@ -129,7 +128,6 @@ class ConnectionManager:
 
                     data = client_socket.recv(1024)
                     response = json.loads(data.decode())
-
                     if response.get("type") == "leader_response":
                         leader = response.get("leader")
                         logger.info(f"connection_manager/find_leader: Leader is {leader}")
