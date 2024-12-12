@@ -57,10 +57,9 @@ class ConnectionManager:
                     logger.info(f"connection_manager/handle_peer: Sent pong response to {addr}")
 
                 if message.get("type") == "leader_query": 
-                    if self.is_leader: 
-                        response = {"type": "leader_response", "leader": self.node_id}
-                        conn.sendall(json.dumps(response).encode())
-                        logger.info(f"connection_manager/handle_peer: Sent leader response to {addr}")
+                    response = {"type": "leader_response", "leader": (self.node_id, self.is_leader)}
+                    conn.sendall(json.dumps(response).encode())
+                    logger.info(f"connection_manager/handle_peer: Sent leader response to {addr}")
 
                 elif message.get("type") == "increase_priority":
                     self.priority += 1
