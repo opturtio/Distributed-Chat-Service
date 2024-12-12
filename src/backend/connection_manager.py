@@ -48,6 +48,7 @@ class ConnectionManager:
                 message = json.loads(data.decode())
                 logger.info(f"connection_manager/handle_peer: Received message: {message}")
                 self.process_message(message)
+                print(f"Your current priority is {self.priority}")
                 
                 if message.get("type") == "ping":
                     response = {"type": "pong", "status": "alive"}

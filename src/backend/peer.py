@@ -20,7 +20,7 @@ class Peer:
         self.host = host
         self.port = port
         self.node_id = secrets.token_hex(64)
-        self.peers = [('127.0.0.1', 6060)]  # Example connected peer
+        self.peers = [('128.214.11.91', 6060)]  # Example connected peer
         self.connection_manager = ConnectionManager(self.host, self.port, self.peers)
         self.message_manager = MessageManager(self.connection_manager)
         self.leader_manager = LeaderManager(self.node_id, self.connection_manager, self.message_manager)
