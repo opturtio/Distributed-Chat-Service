@@ -26,7 +26,9 @@ def console_menu(peer):
         print("1. Send a message")
         print("2. View messages")
         print("3. Check priority")
-        print("4. Exit")
+        print("4. Update peer priorities")
+        print("5. Start election")
+        print("6. Exit")
         choice = input("Enter your choice: ")
 
         if choice == "1":
@@ -41,7 +43,15 @@ def console_menu(peer):
                 print(f"{message['sender']}: {message['message']}")
         elif choice == "3":
             print(f"Your current priority is {peer.bully_algorithm.priority}")
+
         elif choice == "4":
+            print("update peer priorities")
+            peer.bully_algorithm.update_peer_priorities()
+        
+        elif choice == "5":
+            print("Starting election")
+            peer.bully_algorithm.start_election()
+        elif choice == "6":
             print("Exiting...")
             break
         else:
