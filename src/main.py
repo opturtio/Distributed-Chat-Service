@@ -7,6 +7,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+print("Current working directory:", os.getcwd())
+print("peer_host:", os.getenv("peer_host"))
+print("peer_port:", os.getenv("peer_port"))
+
 def console_menu(peer):
     """Provides a console-based menu for user interaction.
 
@@ -20,7 +24,8 @@ def console_menu(peer):
         print("\nOptions:")
         print("1. Send a message")
         print("2. View messages")
-        print("3. Exit")
+        print("3. Check priority")
+        print("4. Exit")
         choice = input("Enter your choice: ")
 
         if choice == "1":
@@ -32,6 +37,8 @@ def console_menu(peer):
             for message in messages:
                 print(f"{message['sender']}: {message['message']}")
         elif choice == "3":
+            print(f"Your current priority is {peer.bully_algorithm.priority}")
+        elif choice == "4":
             print("Exiting...")
             break
         else:

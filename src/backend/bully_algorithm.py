@@ -17,7 +17,7 @@ class BullyAlgorithm:
         self.connection_manager.contact_peers_and_increase_priority()
         self.priority = self.connection_manager.fetch_priority()
         print("bully_algorithm/update_peer_priorities: Peer priorities updated.")
-        print(f"Your current priority is {self.priority}")
+        print(f"BULLY: Your current priority is {self.priority}")
 
     def find_leader(self):
         print("bully_algorithm/find_leader: Finding leader...")

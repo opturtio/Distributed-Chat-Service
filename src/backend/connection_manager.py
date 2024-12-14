@@ -19,7 +19,7 @@ class ConnectionManager:
         """
         self.node_id = node_id
         self.host = host
-        self.port = port
+        self.port = int(port)
         self.peers = peers
         self.priority = 1
         self.is_leader = False
@@ -85,7 +85,6 @@ class ConnectionManager:
             message (dict): The message to send.
         """
         logger.info(f"connection_manager/send_to_peer: Sending message to {peer}: {message}")
-        print(f"Your current priority is {self.priority}")
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
                 client_socket.connect(peer)

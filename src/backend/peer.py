@@ -23,7 +23,7 @@ class Peer:
         self.host = host
         self.port = port
         self.node_id = secrets.token_hex(64)
-        self.peers = [(os.getenv("peer_host"), int(os.getenv("peer_port")))]  # Example connected peer
+        self.peers = [(os.getenv("peer_host"), os.getenv("peer_port"))]  # Example connected peer
         self.connection_manager = ConnectionManager(self.host, self.port, self.peers, self.node_id)
         self.message_manager = MessageManager(self.connection_manager)
         self.leader_manager = LeaderManager(self.node_id, self.connection_manager, self.message_manager)
@@ -45,3 +45,7 @@ class Peer:
         logger.info(f"peer/send_message: Sending message: {message}")
         #self.bully_algorithm.check_leader()
         self.message_manager.broadcast_message(message)
+
+    def report_priority(self):
+        """Reports the peer's current priority"""
+        return self.bully_algorithm.priority
