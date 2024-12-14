@@ -42,7 +42,7 @@ def console_menu(peer):
             for message in chat_messages:
                 print(f"{message['sender']}: {message['message']}")
         elif choice == "3":
-            print(f"Your current priority is {peer.bully_algorithm.priority}")
+            print(f"Your current priority is {peer.connection_manager.priority}")
 
         elif choice == "4":
             print("update peer priorities")
