@@ -161,7 +161,7 @@ class ConnectionManager:
                     priority = response.get("priority")
                     logger.info(f"connection_manager/find_priority: Priority for {peer} is {priority}")
                     print(f"connection_manager/find_priority: Priority for {peer} is {priority}")
-                    return (peer, priority)
+                    return priority
         except Exception as e:
             logger.error(f"connection_manager/find_priority: Failed to query priority from {peer}: {e}")
             print(f"connection_manager/find_priority: Failed to query priority from {peer}: {e}")
