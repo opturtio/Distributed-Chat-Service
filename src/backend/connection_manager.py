@@ -146,12 +146,15 @@ class ConnectionManager:
                 message = {"type": "increase_priority"}
                 client_socket.sendall(json.dumps(message).encode())
                 logger.info(f"connection_manager/send_priority_increment: Sent priority increment to {peer}")
+                print(f"connection_manager/send_priority_increment: Sent priority increment to {peer}")
 
                 data = client_socket.recv(1024)
                 response = json.loads(data.decode())
                 logger.info(f"connection_manager/send_priority_increment: Received response from {peer}: {response}")
+                print(f"connection_manager/send_priority_increment: Received response from {peer}: {response}")
         except Exception as e:
             logger.error(f"connection_manager/send_priority_increment: Failed to increase priority for peer {peer}: {e}")
+            print(f"connection_manager/send_priority_increment: Failed to increase priority for peer {peer}: {e}")
 
     def contact_peers_and_increase_priority(self):
         """Pings all peers and increments their priority if they respond."""
@@ -159,6 +162,7 @@ class ConnectionManager:
             logger.info(f"connection_manager/contact_peers_and_increase_priority: Pinging peer {peer}")
             if self.ping_peer(peer):
                 logger.info(f"connection_manager/contact_peers_and_increase_priority: Peer {peer} is alive. Sending priority increment.")
+                print(f"connection_manager/contact_peers_and_increase_priority: Peer {peer} is alive. Sending priority increment.")
                 self.send_priority_increment(peer)
             else:
                 logger.warning(f"connection_manager/contact_peers_and_increase_priority: Peer {peer} did not respond.")
