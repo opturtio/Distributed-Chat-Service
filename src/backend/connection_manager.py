@@ -60,11 +60,15 @@ class ConnectionManager:
                     response = {"type": "leader_response", "leader": (self.node_id, self.is_leader)}
                     conn.sendall(json.dumps(response).encode())
                     logger.info(f"connection_manager/handle_peer: Sent leader response to {addr}")
+                
+                if message.get("type") == "priority_query":
+                    response = {"type": "priority_response", "priority": self.priority}
+                    conn.sendall(json.dumps(response).encode())
+                    logger.info(f"connection_manager/handle_peer: Sent priority response to {addr}")
 
                 elif message.get("type") == "increase_priority":
                     self.priority += 1
                     logger.info(f"connection_manager/handle_peer: Increased priority for {addr}: {self.priority}")
-                    print(f"connection_manager/handle_peer: Increased priority for {addr}: {self.priority}")
                     response = {"type": "priority_updated", "priority": self.priority}
                     conn.sendall(json.dumps(response).encode())
 
@@ -137,6 +141,30 @@ class ConnectionManager:
             except Exception as e:
                 logger.error(f"connection_manager/find_leader: Failed to query leader from {peer}: {e}")
                 print(f"connection_manager/find_leader: Failed to query leader from {peer}: {e}")
+        return None
+    
+    def find_priority(self, peer):
+        """Finds the current priority of peer."""
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+                client_socket.settimeout(5)
+                client_socket.connect(peer)
+                message = {"type": "priority_query"}
+                client_socket.sendall(json.dumps(message).encode())
+                logger.info(f"connection_manager/find_priority: Sent priority query to {peer}")
+                print(f"connection_manager/find_priority: Sent priority query to {peer}")
+
+                data = client_socket.recv(1024)
+                response = json.loads(data.decode())
+
+                if response.get("type") == "priority_response":
+                    priority = response.get("priority")
+                    logger.info(f"connection_manager/find_priority: Priority for {peer} is {priority}")
+                    print(f"connection_manager/find_priority: Priority for {peer} is {priority}")
+                    return (peer, priority)
+        except Exception as e:
+            logger.error(f"connection_manager/find_priority: Failed to query priority from {peer}: {e}")
+            print(f"connection_manager/find_priority: Failed to query priority from {peer}: {e}")
         return None
 
     def send_priority_increment(self, peer):
