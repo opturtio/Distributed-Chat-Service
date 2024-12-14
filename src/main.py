@@ -32,9 +32,10 @@ def console_menu(peer):
         if choice == "1":
             messages = send_message_cli(peer, user_name, messages)
         elif choice == "2":
+            
             messages = view_messages_cli(messages)
-            print("Current messages list:", messages)
-            messages = sorted(messages, key=lambda x: x['timestamp'])
+            chat_messages = [msg for msg in messages if "timestamp" in msg and "sender" in msg and "message" in msg]
+            chat_messages = sorted(chat_messages, key=lambda x: x["timestamp"])
             print("\nMessages:")
             for message in messages:
                 print(f"{message['sender']}: {message['message']}")
