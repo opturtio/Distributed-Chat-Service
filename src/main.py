@@ -39,7 +39,7 @@ def console_menu(peer):
             chat_messages = [msg for msg in messages if "timestamp" in msg and "sender" in msg and "message" in msg]
             chat_messages = sorted(chat_messages, key=lambda x: x["timestamp"])
             print("\nMessages:")
-            for message in messages:
+            for message in chat_messages:
                 print(f"{message['sender']}: {message['message']}")
         elif choice == "3":
             print(f"Your current priority is {peer.bully_algorithm.priority}")
