@@ -1,5 +1,6 @@
 import threading
-from dotenv import peer_info
+import os
+from dotenv import load_dotenv
 from backend.connection_manager import ConnectionManager
 from backend.message_manager import MessageManager
 from backend.leader_manager import LeaderManager
@@ -7,6 +8,7 @@ from backend.bully_algorithm import BullyAlgorithm
 from logger import logger
 import secrets
 
+load_dotenv()
 
 class Peer:
     """Represents a peer in the P2P network."""
@@ -21,7 +23,7 @@ class Peer:
         self.host = host
         self.port = port
         self.node_id = secrets.token_hex(64)
-        self.peers = [peer_info]  # Example connected peer
+        self.peers = [os.getenv("peer_info")]  # Example connected peer
         self.connection_manager = ConnectionManager(self.host, self.port, self.peers, self.node_id)
         self.message_manager = MessageManager(self.connection_manager)
         self.leader_manager = LeaderManager(self.node_id, self.connection_manager, self.message_manager)

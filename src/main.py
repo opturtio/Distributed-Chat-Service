@@ -1,7 +1,10 @@
 import time
+import os
 from backend.peer import Peer
 from backend.connection_manager import received_messages
-from dotenv import peer_info
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 def console_menu(peer):
@@ -70,6 +73,6 @@ def view_messages_cli(messages):
     return messages
 
 if __name__ == "__main__":
-    peer = Peer("0.0.0.0", peer_info[1])
+    peer = Peer("0.0.0.0", os.getenv("peer_info")[1])
     peer.start()
     console_menu(peer)
