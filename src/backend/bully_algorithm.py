@@ -50,6 +50,7 @@ class BullyAlgorithm:
 
         if not higher_priority_peers:
             # If no higher-priority peers exist, declare self as leader
+            print("bully_algorithm/start_election: No higher-priority peers found. Declaring self as leader.")
             self.declare_leader()
         else:
             # Notify higher-priority peers
@@ -59,9 +60,11 @@ class BullyAlgorithm:
 
             # Wait for responses
             if any(responses):
+                print("bully_algorithm/start_election: Higher-priority peer responded. Aborting election.")
                 pass
             else:
                 self.declare_leader()
+                print("bully_algorithm/start_election: No higher-priority peers responded. Declaring self as leader.")
 
     def send_election_message(self, peer):
         # Simulate sending an election message
