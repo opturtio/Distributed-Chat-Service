@@ -33,6 +33,7 @@ def console_menu(peer):
             messages = send_message_cli(peer, user_name, messages)
         elif choice == "2":
             messages = view_messages_cli(messages)
+            print("Current messages list:", messages)
             messages = sorted(messages, key=lambda x: x['timestamp'])
             print("\nMessages:")
             for message in messages:
