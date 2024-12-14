@@ -1,4 +1,5 @@
 import threading
+from dotenv import peer_info
 from backend.connection_manager import ConnectionManager
 from backend.message_manager import MessageManager
 from backend.leader_manager import LeaderManager
@@ -20,7 +21,7 @@ class Peer:
         self.host = host
         self.port = port
         self.node_id = secrets.token_hex(64)
-        self.peers = [('128.214.11.91', 6060)]  # Example connected peer
+        self.peers = [peer_info]  # Example connected peer
         self.connection_manager = ConnectionManager(self.host, self.port, self.peers, self.node_id)
         self.message_manager = MessageManager(self.connection_manager)
         self.leader_manager = LeaderManager(self.node_id, self.connection_manager, self.message_manager)
