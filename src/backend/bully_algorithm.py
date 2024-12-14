@@ -14,6 +14,7 @@ class BullyAlgorithm:
     def update_peer_priorities(self):
         """Contacts peers and increases their priority."""
         print("bully_algorithm/update_peer_priorities: Updating peer priorities...")
+        print("bully_algorithm/update_peer_priorities: current priority in bully is", self.priority)
         self.connection_manager.contact_peers_and_increase_priority()
         self.priority = self.connection_manager.fetch_priority()
         print("bully_algorithm/update_peer_priorities: Peer priorities updated.")

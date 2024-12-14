@@ -64,6 +64,7 @@ class ConnectionManager:
                 elif message.get("type") == "increase_priority":
                     self.priority += 1
                     logger.info(f"connection_manager/handle_peer: Increased priority for {addr}: {self.priority}")
+                    print(f"connection_manager/handle_peer: Increased priority for {addr}: {self.priority}")
                     response = {"type": "priority_updated", "priority": self.priority}
                     conn.sendall(json.dumps(response).encode())
 
@@ -158,6 +159,7 @@ class ConnectionManager:
 
     def contact_peers_and_increase_priority(self):
         """Pings all peers and increments their priority if they respond."""
+        print("connection_manager/contact_peers_and_increase_priority: current priority in conman is", self.priority)
         for peer in self.peers:
             logger.info(f"connection_manager/contact_peers_and_increase_priority: Pinging peer {peer}")
             if self.ping_peer(peer):
