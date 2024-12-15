@@ -30,7 +30,6 @@ class MessageManager:
         logger.info(f"message_manager/broadcast_message: Broadcasting message: {message}")
         for peer in peers:
             logger.info(f"message_manager/broadcast_message: peer {peer}")
-            print(f"message_manager/broadcast_message: peer {peer}")
             try:
                 self.connection_manager.send_to_peer(peer, message)
             except Exception:

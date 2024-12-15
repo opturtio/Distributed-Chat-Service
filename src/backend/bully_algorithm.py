@@ -13,23 +13,16 @@ class BullyAlgorithm:
     
     def update_peer_priorities(self):
         """Contacts peers and increases their priority."""
-        print("bully_algorithm/update_peer_priorities: Updating peer priorities...")
-        print("bully_algorithm/update_peer_priorities: current priority in bully is", self.priority)
         self.connection_manager.contact_peers_and_increase_priority()
         self.priority = self.connection_manager.fetch_priority()
-        print("bully_algorithm/update_peer_priorities: Peer priorities updated.")
-        print(f"bully_algorithm/update_peer_priorities: Your current priority is {self.priority}")
 
     def find_leader(self):
-        print("bully_algorithm/find_leader: Finding leader...")
         found = self.connection_manager.find_leader()
         if found:
             if found[1]:
-                self.leader = found[0]
-                print(f"bully_algorithm/find_leader: Found leader, leader is {self.leader}")    
+                self.leader = found[0] 
         else:
             self.leader = self.node_id
-            print("bully_algorithm/find_leader: Failed to find leader. Assigning self as leader.")
         
 
     def check_leader(self):
@@ -54,9 +47,7 @@ class BullyAlgorithm:
                 if peer_priority > self.priority:
                     higher_priority_peers.append(peer)
             except Exception as e:
-                print(f"bully_algorithm/start_election: Failed to fetch priority for peer {peer}: {e}")
-
-        print("higher priority peers:", higher_priority_peers)
+                pass
 
 
         if not higher_priority_peers:
@@ -67,9 +58,7 @@ class BullyAlgorithm:
             # Notify higher-priority peers
             responses = []
             for peer in higher_priority_peers:
-                print("bully_algorithm/start_election: Notifying higher-priority peer:", peer)
                 responses.append(self.connection_manager.ping_peer(peer))
-            print("responses:", responses)
 
             # Wait for responses
             if any(responses):
@@ -93,4 +82,4 @@ class BullyAlgorithm:
             try:
                 self.connection_manager.announce_leader(peer)
             except Exception as e:
-                print(f"bully_algorithm/announce_leader: Failed to announce leader to peer {peer}: {e}")
+                pass
