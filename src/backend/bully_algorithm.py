@@ -47,12 +47,19 @@ class BullyAlgorithm:
     
     def start_election(self):
         self.priority = self.connection_manager.fetch_priority()
-        try:
-            higher_priority_peers = [peer for peer in self.peers if self.connection_manager.find_priority(peer) > self.priority]
-            print("higher priority peers:", higher_priority_peers)
-        except:
-            print("bully_algorithm/start_election: Failed to fetch priority from peers.")
-    
+        higher_priority_peers = []
+
+        for peer in self.peers:
+            try:
+                peer_priority = self.connection_manager.find_priority(peer)
+                if peer_priority > self.priority:
+                    higher_priority_peers.append(peer)
+            except Exception as e:
+                print(f"bully_algorithm/start_election: Failed to fetch priority for peer {peer}: {e}")
+
+        print("higher priority peers:", higher_priority_peers)
+
+        
 
         if not higher_priority_peers:
             # If no higher-priority peers exist, declare self as leader
