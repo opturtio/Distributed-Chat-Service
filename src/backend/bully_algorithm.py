@@ -91,6 +91,6 @@ class BullyAlgorithm:
         """Announces the leader to all peers."""
         for peer in self.peers:
             try:
-                self.connection_manager.announce_leader(peer, self.leader)
+                self.connection_manager.announce_leader(peer)
             except Exception as e:
                 print(f"bully_algorithm/announce_leader: Failed to announce leader to peer {peer}: {e}")
