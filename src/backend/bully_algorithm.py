@@ -59,7 +59,6 @@ class BullyAlgorithm:
 
         print("higher priority peers:", higher_priority_peers)
 
-        
 
         if not higher_priority_peers:
             # If no higher-priority peers exist, declare self as leader
@@ -90,7 +89,9 @@ class BullyAlgorithm:
         self.announce_leader()
 
     def announce_leader(self):
-        pass
-
-    def receive_leader_announcement(self, leader_id):
-        self.leader = leader_id
+        """Announces the leader to all peers."""
+        for peer in self.peers:
+            try:
+                self.connection_manager.announce_leader(peer, self.leader)
+            except Exception as e:
+                print(f"bully_algorithm/announce_leader: Failed to announce leader to peer {peer}: {e}")

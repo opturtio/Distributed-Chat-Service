@@ -66,6 +66,10 @@ class ConnectionManager:
                     conn.sendall(json.dumps(response).encode())
                     logger.info(f"connection_manager/handle_peer: Sent priority response to {addr}")
 
+                if message.get("type") == "leader_announcement":
+                    self.is_leader = False
+                    logger.info(f"connection_manager/handle_peer: Leader is {message.get('leader')}")
+
                 elif message.get("type") == "increase_priority":
                     self.priority += 1
                     logger.info(f"connection_manager/handle_peer: Increased priority for {addr}: {self.priority}")
@@ -196,6 +200,17 @@ class ConnectionManager:
                 self.send_priority_increment(peer)
             else:
                 logger.warning(f"connection_manager/contact_peers_and_increase_priority: Peer {peer} did not respond.")
+
+    def announce_leader(self, peer):
+        """Announces the current leader to peer."""
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+                client_socket.connect(peer)
+                message = {"type": "leader_announcement", "leader": self.node_id}
+                client_socket.sendall(json.dumps(message).encode())
+                logger.info(f"connection_manager/announce_leader: Sent leader announcement to {peer}")
+        except:
+            logger.error(f"connection_manager/announce_leader: Failed to announce leader to {peer}")
 
     def fetch_priority(self):
         return self.priority

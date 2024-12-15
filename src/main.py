@@ -54,6 +54,7 @@ def console_menu(peer):
             peer.bully_algorithm.start_election()
 
         elif choice == "6":
+            peer.bully_algorithm.find_leader()
             print("Leader is", peer.bully_algorithm.leader)
         elif choice == "7":
             print("Exiting...")
