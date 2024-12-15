@@ -1,4 +1,5 @@
 import threading
+import time
 import os
 from dotenv import load_dotenv
 from backend.connection_manager import ConnectionManager
@@ -35,6 +36,7 @@ class Peer:
         logger.info("peer/start: Starting peer services.")
         threading.Thread(target=self.connection_manager.listen_for_peers, daemon=True).start()
         threading.Thread(target=self.message_manager.retry_unsent_messages, daemon=True).start()
+        threading.Thread(target=self.leader_check, daemon=True).start()
 
     def send_message(self, message):
         """Sends a message to all connected peers.
@@ -49,3 +51,10 @@ class Peer:
     def report_priority(self):
         """Reports the peer's current priority"""
         return self.bully_algorithm.priority
+    
+    def leader_check(self):
+        """Periodically checks if the leader is reachable and starts an election if not."""
+        while True:
+            logger.info("peer/periodic_leader_check: Checking if leader is reachable.")
+            self.bully_algorithm.check_leader()
+            time.sleep(10)  # Check every 10 seconds

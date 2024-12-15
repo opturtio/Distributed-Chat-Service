@@ -32,7 +32,6 @@ class BullyAlgorithm:
             print("bully_algorithm/find_leader: Failed to find leader. Assigning self as leader.")
         
 
-    
     def check_leader(self):
         # Periodically check if the leader is reachable
         if not self.ping_leader():
