@@ -48,7 +48,6 @@ class BullyAlgorithm:
     def start_election(self):
         self.priority = self.connection_manager.fetch_priority()
         higher_priority_peers = [peer for peer in self.peers if self.connection_manager.find_priority(peer) > self.priority]
-        print(self.priority)
         print("higher priority peers:", higher_priority_peers)
 
         if not higher_priority_peers:
@@ -59,7 +58,9 @@ class BullyAlgorithm:
             # Notify higher-priority peers
             responses = []
             for peer in higher_priority_peers:
-                responses.append(self.send_election_message(peer))
+                print("bully_algorithm/start_election: Notifying higher-priority peer:", peer)
+                responses.append(self.connection_manager.ping_peer(peer))
+            print("responses:", responses)
 
             # Wait for responses
             if any(responses):
