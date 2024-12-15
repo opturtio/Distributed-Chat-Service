@@ -22,6 +22,7 @@ class BullyAlgorithm:
             if found[1]:
                 self.leader = found[0] 
         else:
+            print("bully_algorithm/find_leader: No leader found.  it is me then.")
             self.leader = self.node_id
         
 
@@ -58,19 +59,17 @@ class BullyAlgorithm:
             # Notify higher-priority peers
             responses = []
             for peer in higher_priority_peers:
+                logger.info(f"bully_algorithm/start_election: Notifying higher-priority peer: {peer}")
                 responses.append(self.connection_manager.ping_peer(peer))
 
             # Wait for responses
             if any(responses):
-                print("bully_algorithm/start_election: Higher-priority peer responded. Aborting election.")
+                logger.info("bully_algorithm/start_election: Higher-priority peer responded. Aborting election.")
                 pass
             else:
                 self.declare_leader()
-                print("bully_algorithm/start_election: No higher-priority peers responded. Declaring self as leader.")
+                logger.info("bully_algorithm/start_election: No higher-priority peers responded. Declaring self as leader.")
 
-    def send_election_message(self, peer):
-        # Simulate sending an election message
-        pass
 
     def declare_leader(self):
         self.leader = self.node_id
