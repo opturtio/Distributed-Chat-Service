@@ -1,6 +1,23 @@
 # User Manual
 
+To run this project, you need to add the IP address and the port of both the node itself and the leader node it will connect to. To do this, you will need to create a .env file inside the src folder, and add the following values:
+
+```
+(Note that these are example values, you will need to check the real values yourself)
+
+peer_host = "0.0.0.0"
+peer_port = 8000
+peer_host_own = "0.0.0.0"
+peer_port_own = 8000
+
+```
+
 ## Development Commands
+
+### Create virtual environment:
+```
+python3 -m venv venv
+```
 
 ### Activate virtual environment:
 ```bash
@@ -14,15 +31,11 @@ deactivate
 
 ### Run the program in src-folder:
 ```bash
-flask run
+python3 main.py
 ```
 
-### Add requirements:
+### Add requirement library:
 ```bash
-pip freeze > requirements.txt
+pip install python-dotenv
 ```
 
-### Install requirements(used whenever requirements are added):
-```bash
-pip install -r requirements.txt
-```
