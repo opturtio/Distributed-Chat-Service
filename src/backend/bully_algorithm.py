@@ -1,6 +1,7 @@
 from logger import logger
 
 class BullyAlgorithm:
+    """Implements the Bully algorithm for leader election in a P2P network."""
     def __init__(self, node_id, peers, connection_manager):
         self.node_id = node_id
         self.priority = 1
@@ -13,14 +14,19 @@ class BullyAlgorithm:
         self.find_leader()
     
     def update_peers(self):
+        """Fetches the list of peers from the connection manager."""
+
         self.peers = self.connection_manager.fetch_peers()
 
     def update_peer_priorities(self):
         """Contacts peers and increases their priority."""
+
         self.connection_manager.contact_peers_and_increase_priority()
         self.priority = self.connection_manager.fetch_priority()
 
     def find_leader(self):
+        """Finds the leader of the network."""
+
         logger.info("bully_algorithm/find_leader: Finding leader.")
         found = self.connection_manager.find_leader()
         if found:
@@ -36,18 +42,23 @@ class BullyAlgorithm:
         
 
     def check_leader(self):
-        # Periodically check if the leader is reachable
+        """Checks if the leader is reachable and starts an election if not."""
         if not self.ping_leader():
             self.start_election()
 
     def ping_leader(self):
-        # Simulate a ping to the leader (e.g., using a socket or message)
+        """Pings the leader to check if it is reachable.
+
+        Returns:
+            bool: True if the leader is reachable, False otherwise.
+        """
         try:
             self.connection_manager.find_leader()
         except:
             return False
     
     def start_election(self):
+        """Starts an election to determine the leader."""
         self.update_peers()
         self.priority = self.connection_manager.fetch_priority()
         higher_priority_peers = []
@@ -61,7 +72,6 @@ class BullyAlgorithm:
                 pass
 
         if not higher_priority_peers:
-            # If no higher-priority peers exist, declare self as leader
             logger.info("bully_algorithm/start_election: No higher-priority peers found. Declaring self as leader.")
             self.declare_leader()
         else:
@@ -81,6 +91,7 @@ class BullyAlgorithm:
 
 
     def declare_leader(self):
+        """Declares self as the leader."""
         self.leader = self.node_id
         self.connection_manager.is_leader = True
         self.announce_leader()
