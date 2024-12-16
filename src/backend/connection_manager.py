@@ -63,6 +63,13 @@ class ConnectionManager:
                     logger.info(f"connection_manager/handle_peer: Added peer {host}:{port} to peers list")
                     response = {"type": "peer_list", "peers": self.peers}
                     conn.sendall(json.dumps(response).encode())
+                    self.inform_other_peers((host, port))
+
+                if message.get("type") == "leader_inform":
+                    host = message.get("host")
+                    port = message.get("port")
+                    self.peers.append((host, port))
+                    logger.info(f"connection_manager/handle_peer: Added leader {host}:{port} to peers list")
 
                 if message.get("type") == "leader_query": 
                     response = {"type": "leader_response", "leader": ((self.host, self.port), self.is_leader)}
@@ -83,6 +90,7 @@ class ConnectionManager:
                     logger.info(f"connection_manager/handle_peer: Increased priority for {addr}: {self.priority}")
                     response = {"type": "priority_updated", "priority": self.priority}
                     conn.sendall(json.dumps(response).encode())
+
 
     def process_message(self, message):
         """Processes an incoming message.
@@ -155,6 +163,18 @@ class ConnectionManager:
         except Exception as e:
             logger.error(f"connection_manager/inform_peer: Failed to inform peer {peer}: {e}")
         
+    def inform_other_peers(self, peer):
+        """Informs other peers about the new peer."""
+        for other_peer in self.peers:
+            if other_peer != peer:
+                try:
+                    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+                        client_socket.connect(other_peer)
+                        message = {"type": "leader_inform", "host": peer[0], "port": peer[1]}
+                        client_socket.sendall(json.dumps(message).encode())
+                        logger.info(f"connection_manager/inform_other_peers: Sent inform message to {other_peer}")
+                except Exception as e:
+                    logger.error(f"connection_manager/inform_other_peers: Failed to inform peer {other_peer}: {e}")
 
     def find_leader(self):
         """Finds the current leader in the network."""
