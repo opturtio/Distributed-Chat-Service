@@ -2,8 +2,7 @@ from logger import logger
 
 class BullyAlgorithm:
     """Implements the Bully algorithm for leader election in a P2P network."""
-    def __init__(self, node_id, peers, connection_manager):
-        self.node_id = node_id
+    def __init__(self, peers, connection_manager):
         self.priority = 1
         self.peers = peers
         self.leader = None
@@ -38,7 +37,7 @@ class BullyAlgorithm:
         else:
             print("bully_algorithm/find_leader: No leader found.  it is me then.")
             logger.info("bully_algorithm/find_leader: No leader found.  it is me then.")
-            self.leader = self.node_id
+            self.leader = (self.connection_manager.host, self.connection_manager.port)
             self.connection_manager.is_leader = True
         
 
@@ -93,7 +92,7 @@ class BullyAlgorithm:
 
     def declare_leader(self):
         """Declares self as the leader."""
-        self.leader = self.node_id
+        self.leader = (self.connection_manager.host, self.connection_manager.port)
         self.connection_manager.is_leader = True
         self.announce_leader()
 

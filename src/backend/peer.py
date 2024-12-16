@@ -4,7 +4,6 @@ import os
 from dotenv import load_dotenv
 from backend.connection_manager import ConnectionManager
 from backend.message_manager import MessageManager
-from backend.leader_manager import LeaderManager
 from backend.bully_algorithm import BullyAlgorithm
 from logger import logger
 import secrets
@@ -23,12 +22,10 @@ class Peer:
         """
         self.host = host
         self.port = port
-        self.node_id = secrets.token_hex(64)
         self.peers = [(os.getenv("peer_host"), int(os.getenv("peer_port")))]  # Example connected peer
         self.connection_manager = ConnectionManager(self.host, self.port, self.peers, self.node_id)
         self.message_manager = MessageManager(self.connection_manager)
-        self.leader_manager = LeaderManager(self.node_id, self.connection_manager, self.message_manager)
-        self.bully_algorithm = BullyAlgorithm(self.node_id, self.peers, self.connection_manager)
+        self.bully_algorithm = BullyAlgorithm(self.peers, self.connection_manager)
         logger.info(f"peer/init: Peer initialized with host={host}, port={port}")
 
     def start(self):

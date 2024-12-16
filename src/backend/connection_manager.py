@@ -9,7 +9,7 @@ received_messages = Queue()
 class ConnectionManager:
     """Manages peer-to-peer connections, message handling, and broadcasting."""
 
-    def __init__(self, host, port, peers, node_id):
+    def __init__(self, host, port, peers):
         """Initializes the connection manager.
 
         Args:
@@ -17,7 +17,6 @@ class ConnectionManager:
             port (int): The port number for the connection manager.
             peers (list): A list of connected peers as (host, port) tuples.
         """
-        self.node_id = node_id
         self.host = host
         self.port = int(port)
         self.peers = peers
@@ -66,7 +65,7 @@ class ConnectionManager:
                     conn.sendall(json.dumps(response).encode())
 
                 if message.get("type") == "leader_query": 
-                    response = {"type": "leader_response", "leader": (self.node_id, self.is_leader)}
+                    response = {"type": "leader_response", "leader": ((self.host, self.port), self.is_leader)}
                     conn.sendall(json.dumps(response).encode())
                     logger.info(f"connection_manager/handle_peer: Sent leader response to {addr}")
                 
@@ -230,7 +229,7 @@ class ConnectionManager:
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
                 client_socket.connect(peer)
-                message = {"type": "leader_announcement", "leader": self.node_id}
+                message = {"type": "leader_announcement", "leader": (self.host, self.port)}
                 client_socket.sendall(json.dumps(message).encode())
                 logger.info(f"connection_manager/announce_leader: Sent leader announcement to {peer}, self.is_leader={self.is_leader}")
         except:
