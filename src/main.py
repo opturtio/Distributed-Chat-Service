@@ -87,7 +87,7 @@ def send_message_cli(peer, user_name, messages):
     message = {"timestamp": time.time(), "sender": user_name, "message": message_content}
     peer.send_message(message)
     messages.append(message)
-    if len(messages) > 10:
+    if len(messages) > 20:
         messages.pop(0)
     return messages
 
@@ -103,7 +103,7 @@ def view_messages_cli(messages):
     while not received_messages.empty():
         message = received_messages.get()
         messages.append(message)
-        if len(messages) > 10:
+        if len(messages) > 1000:
             messages.pop(0)
     return messages
 
