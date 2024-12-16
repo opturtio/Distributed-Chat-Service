@@ -82,7 +82,6 @@ class ConnectionManager:
                     self.priority += 1
                     logger.info(f"connection_manager/handle_peer: Increased priority for {addr}: {self.priority}")
                     response = {"type": "priority_updated", "priority": self.priority}
-                    print("+1")
                     conn.sendall(json.dumps(response).encode())
 
     def process_message(self, message):
