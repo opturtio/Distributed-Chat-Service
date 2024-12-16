@@ -24,6 +24,7 @@ class Peer:
         self.port = port
         self.peers = [(os.getenv("peer_host"), int(os.getenv("peer_port")))]  # Example connected peer
         self.connection_manager = ConnectionManager(self.host, self.port, self.peers)
+        self.connection_manager.inform_peer(self.peers[0])
         self.message_manager = MessageManager(self.connection_manager)
         self.bully_algorithm = BullyAlgorithm(self.peers, self.connection_manager)
         logger.info(f"peer/init: Peer initialized with host={host}, port={port}")
@@ -31,7 +32,6 @@ class Peer:
     def start(self):
         """Starts the peer's connection listener and message retry threads."""
         logger.info("peer/start: Starting peer services.")
-        self.connection_manager.inform_peer(self.peers[0])
         threading.Thread(target=self.connection_manager.listen_for_peers, daemon=True).start()
         threading.Thread(target=self.message_manager.retry_unsent_messages, daemon=True).start()
         threading.Thread(target=self.leader_check, daemon=True).start()
