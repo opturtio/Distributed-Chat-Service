@@ -146,6 +146,9 @@ class ConnectionManager:
                     for new_peer in new_peers:
                         new_peer_tuple = (new_peer[0], new_peer[1])
                         if new_peer_tuple not in self.peers:
+                            print(new_peer_tuple)
+                            for x_peer in self.peers:
+                                print(x_peer)
                             if new_peer_tuple != (self.host, self.port):
                                 self.peers.append(new_peer_tuple)
                     logger.info(f"connection_manager/inform_peer: Updated peers list: {self.peers}")
