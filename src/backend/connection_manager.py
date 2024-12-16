@@ -127,7 +127,6 @@ class ConnectionManager:
                 client_socket.connect(peer)
                 ping_message = {"type": "ping"}
                 client_socket.sendall(json.dumps(ping_message).encode())
-                logger.info(f"connection_manager/ping_peer: Sent ping to {peer}")
 
                 data = client_socket.recv(1024)
                 response = json.loads(data.decode())
@@ -206,8 +205,6 @@ class ConnectionManager:
                 client_socket.connect(peer)
                 message = {"type": "priority_query"}
                 client_socket.sendall(json.dumps(message).encode())
-                logger.info(f"connection_manager/find_priority: Sent priority query to {peer}")
-
                 data = client_socket.recv(1024)
                 response = json.loads(data.decode())
 
@@ -226,11 +223,10 @@ class ConnectionManager:
                 client_socket.connect(peer)
                 message = {"type": "increase_priority"}
                 client_socket.sendall(json.dumps(message).encode())
-                logger.info(f"connection_manager/send_priority_increment: Sent priority increment to {peer}")
 
                 data = client_socket.recv(1024)
                 response = json.loads(data.decode())
-                logger.info(f"connection_manager/send_priority_increment: Received response from {peer}: {response}")
+                logger.info(f"connection_manager/send_priority_increment: Raised priority for {peer}: {response}")
         except Exception as e:
             logger.error(f"connection_manager/send_priority_increment: Failed to increase priority for peer {peer}: {e}")
 
