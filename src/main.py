@@ -29,7 +29,8 @@ def console_menu(peer):
         print("4. Update peer priorities")
         print("5. Start election")
         print("6. Check leader")
-        print("7. Exit")
+        print("7. Show peers")
+        print("8. Exit")
         choice = input("Enter your choice: ")
 
         if choice == "1":
@@ -61,10 +62,10 @@ def console_menu(peer):
 
         elif choice == "7":
             print("Peers:")
-            for peer in peer.connection_manager.peers:
-                print(peer)
+            for pr in peer.connection_manager.peers:
+                print(pr)
             
-        elif choice == "7":
+        elif choice == "8":
             print("Exiting...")
             break
         else:
