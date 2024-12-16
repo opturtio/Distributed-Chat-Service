@@ -30,6 +30,7 @@ class BullyAlgorithm:
         logger.info("bully_algorithm/find_leader: Finding leader.")
         found = self.connection_manager.find_leader()
         if found:
+            logger.info(f"bully_algorithm/find_leader: Possible leader found: {found[0]}")
             if found[1]:
                 logger.info(f"bully_algorithm/find_leader: Leader found: {found[0]}")
                 self.leader = found[0] 
