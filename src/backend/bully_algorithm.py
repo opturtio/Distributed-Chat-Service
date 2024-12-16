@@ -53,7 +53,7 @@ class BullyAlgorithm:
 
         if not higher_priority_peers:
             # If no higher-priority peers exist, declare self as leader
-            print("bully_algorithm/start_election: No higher-priority peers found. Declaring self as leader.")
+            logger.info("bully_algorithm/start_election: No higher-priority peers found. Declaring self as leader.")
             self.declare_leader()
         else:
             # Notify higher-priority peers
