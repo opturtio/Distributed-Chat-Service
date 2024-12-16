@@ -23,7 +23,7 @@ class Peer:
         self.host = host
         self.port = port
         self.peers = [(os.getenv("peer_host"), int(os.getenv("peer_port")))]  # Example connected peer
-        self.connection_manager = ConnectionManager(self.host, self.port, self.peers, self.node_id)
+        self.connection_manager = ConnectionManager(self.host, self.port, self.peers)
         self.message_manager = MessageManager(self.connection_manager)
         self.bully_algorithm = BullyAlgorithm(self.peers, self.connection_manager)
         logger.info(f"peer/init: Peer initialized with host={host}, port={port}")
