@@ -8,9 +8,9 @@ class BullyAlgorithm:
         self.leader = None
         self.peer_priorities = {}
         self.connection_manager = connection_manager
-        self.update_peer_priorities()
-        self.update_peers()
         self.find_leader()
+        self.update_peers()
+        self.update_peer_priorities()
     
     def update_peers(self):
         """Fetches the list of peers from the connection manager."""
