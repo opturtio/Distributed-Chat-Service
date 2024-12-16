@@ -239,4 +239,5 @@ class ConnectionManager:
         return self.priority
     
     def fetch_peers(self):
+        logger.info(f"connection_manager/fetch_peers: Peers list: {self.peers}")
         return self.peers
