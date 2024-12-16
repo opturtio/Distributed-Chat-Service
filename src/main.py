@@ -108,6 +108,6 @@ def view_messages_cli(messages):
     return messages
 
 if __name__ == "__main__":
-    peer = Peer("0.0.0.0", os.getenv("peer_port_own"))
+    peer = Peer(os.getenv("peer_host_own"), os.getenv("peer_port_own"))
     peer.start()
     console_menu(peer)
