@@ -63,6 +63,9 @@ class ConnectionManager:
                     logger.info(f"connection_manager/handle_peer: Added peer {host}:{port} to peers list")
                     response = {"type": "peer_list", "peers": self.peers}
                     conn.sendall(json.dumps(response).encode())
+                    for peer in self.peers:
+                        if peer != (host, port):
+                            self.inform_peer(peer)
 
                 if message.get("type") == "leader_query": 
                     response = {"type": "leader_response", "leader": ((self.host, self.port), self.is_leader)}
