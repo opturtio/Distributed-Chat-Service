@@ -55,6 +55,12 @@ class ConnectionManager:
                     response = {"type": "pong", "status": "alive"}
                     conn.sendall(json.dumps(response).encode())
                     logger.info(f"connection_manager/handle_peer: Sent pong response to {addr}")
+                
+                if message.get("type") == "inform":
+                    host = message.get("host")
+                    port = message.get("port")
+                    self.peers.append((host, port))
+                    logger.info(f"connection_manager/handle_peer: Added peer {host}:{port} to peers list")
 
                 if message.get("type") == "leader_query": 
                     response = {"type": "leader_response", "leader": (self.node_id, self.is_leader)}
@@ -123,6 +129,17 @@ class ConnectionManager:
             logger.error(f"connection_manager/ping_peer: Failed to ping peer {peer}: {e}")
         return False
     
+    def inform_peer(self, peer):
+        """Informs peer about existing.""" 
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+                client_socket.connect(peer)
+                message = {"type": "inform", "host": self.host, "port": self.port}
+                client_socket.sendall(json.dumps(message).encode())
+                logger.info(f"connection_manager/inform_peer: Sent inform message to {peer}")
+        except Exception as e:
+            logger.error(f"connection_manager/inform_peer: Failed to inform peer {peer}: {e}")
+
     def find_leader(self):
         """Finds the current leader in the network."""
         for peer in self.peers:
@@ -204,3 +221,6 @@ class ConnectionManager:
 
     def fetch_priority(self):
         return self.priority
+    
+    def fetch_peers(self):
+        return self.peers

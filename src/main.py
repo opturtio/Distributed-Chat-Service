@@ -34,6 +34,7 @@ def console_menu(peer):
 
         if choice == "1":
             messages = send_message_cli(peer, user_name, messages)
+
         elif choice == "2":
             
             messages = view_messages_cli(messages)
@@ -42,6 +43,7 @@ def console_menu(peer):
             print("\nMessages:")
             for message in chat_messages:
                 print(f"{message['sender']}: {message['message']}")
+
         elif choice == "3":
             print(f"Your current priority is {peer.connection_manager.priority}")
 
@@ -56,6 +58,12 @@ def console_menu(peer):
         elif choice == "6":
             peer.bully_algorithm.find_leader()
             print("Leader is", peer.bully_algorithm.leader)
+
+        elif choice == "7":
+            print("Peers:")
+            for peer in peer.connection_manager.peers:
+                print(peer)
+            
         elif choice == "7":
             print("Exiting...")
             break

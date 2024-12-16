@@ -9,8 +9,12 @@ class BullyAlgorithm:
         self.peer_priorities = {}
         self.connection_manager = connection_manager
         self.update_peer_priorities()
+        self.update_peers()
         self.find_leader()
     
+    def update_peers(self):
+        self.peers = self.connection_manager.fetch_peers()
+
     def update_peer_priorities(self):
         """Contacts peers and increases their priority."""
         self.connection_manager.contact_peers_and_increase_priority()
@@ -41,6 +45,7 @@ class BullyAlgorithm:
             return False
     
     def start_election(self):
+        self.update_peers()
         self.priority = self.connection_manager.fetch_priority()
         higher_priority_peers = []
 
@@ -51,7 +56,6 @@ class BullyAlgorithm:
                     higher_priority_peers.append(peer)
             except Exception as e:
                 pass
-
 
         if not higher_priority_peers:
             # If no higher-priority peers exist, declare self as leader
@@ -79,6 +83,7 @@ class BullyAlgorithm:
 
     def announce_leader(self):
         """Announces the leader to all peers."""
+        self.update_peers()
         for peer in self.peers:
             try:
                 self.connection_manager.announce_leader(peer)
