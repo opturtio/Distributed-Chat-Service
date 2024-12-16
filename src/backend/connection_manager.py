@@ -61,6 +61,8 @@ class ConnectionManager:
                     port = message.get("port")
                     self.peers.append((host, port))
                     logger.info(f"connection_manager/handle_peer: Added peer {host}:{port} to peers list")
+                    response = {"type": "peer_list", "peers": self.peers}
+                    conn.sendall(json.dumps(response).encode())
 
                 if message.get("type") == "leader_query": 
                     response = {"type": "leader_response", "leader": (self.node_id, self.is_leader)}
@@ -137,8 +139,17 @@ class ConnectionManager:
                 message = {"type": "inform", "host": self.host, "port": self.port}
                 client_socket.sendall(json.dumps(message).encode())
                 logger.info(f"connection_manager/inform_peer: Sent inform message to {peer}")
+                
+                data = client_socket.recv(1024)
+                response = json.loads(data.decode())
+                if response.get("type") == "peer_list":
+                    new_peers = response.get("peers")
+                    self.peers.append(new_peers)
+                    logger.info(f"connection_manager/inform_peer: Updated peers list: {self.peers}")
+
         except Exception as e:
             logger.error(f"connection_manager/inform_peer: Failed to inform peer {peer}: {e}")
+        
 
     def find_leader(self):
         """Finds the current leader in the network."""
