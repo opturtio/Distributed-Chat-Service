@@ -146,6 +146,8 @@ class ConnectionManager:
                     new_peers = response.get("peers")
                     self.peers.append(new_peers)
                     logger.info(f"connection_manager/inform_peer: Updated peers list: {self.peers}")
+                else:
+                    logger.warning(f"connection_manager/inform_peer: Unexpected response from {peer}: {response}")
 
         except Exception as e:
             logger.error(f"connection_manager/inform_peer: Failed to inform peer {peer}: {e}")
