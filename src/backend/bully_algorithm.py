@@ -21,9 +21,11 @@ class BullyAlgorithm:
         if found:
             if found[1]:
                 self.leader = found[0] 
+                self.connection_manager.is_leader = False
         else:
             print("bully_algorithm/find_leader: No leader found.  it is me then.")
             self.leader = self.node_id
+            self.connection_manager.is_leader = True
         
 
     def check_leader(self):
