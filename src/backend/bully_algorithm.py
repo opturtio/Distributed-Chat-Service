@@ -21,13 +21,16 @@ class BullyAlgorithm:
         self.priority = self.connection_manager.fetch_priority()
 
     def find_leader(self):
+        logger.info("bully_algorithm/find_leader: Finding leader.")
         found = self.connection_manager.find_leader()
         if found:
             if found[1]:
+                logger.info(f"bully_algorithm/find_leader: Leader found: {found[0]}")
                 self.leader = found[0] 
                 self.connection_manager.is_leader = False
         else:
             print("bully_algorithm/find_leader: No leader found.  it is me then.")
+            logger.info("bully_algorithm/find_leader: No leader found.  it is me then.")
             self.leader = self.node_id
             self.connection_manager.is_leader = True
         
