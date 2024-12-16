@@ -82,6 +82,7 @@ class BullyAlgorithm:
 
     def declare_leader(self):
         self.leader = self.node_id
+        self.connection_manager.is_leader = True
         self.announce_leader()
 
     def announce_leader(self):
