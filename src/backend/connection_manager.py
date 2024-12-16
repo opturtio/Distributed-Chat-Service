@@ -232,7 +232,7 @@ class ConnectionManager:
                 client_socket.connect(peer)
                 message = {"type": "leader_announcement", "leader": self.node_id}
                 client_socket.sendall(json.dumps(message).encode())
-                logger.info(f"connection_manager/announce_leader: Sent leader announcement to {peer}")
+                logger.info(f"connection_manager/announce_leader: Sent leader announcement to {peer}, self.is_leader={self.is_leader}")
         except:
             logger.error(f"connection_manager/announce_leader: Failed to announce leader to {peer}")
 
