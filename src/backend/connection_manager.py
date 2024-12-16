@@ -59,7 +59,8 @@ class ConnectionManager:
                 if message.get("type") == "inform":
                     host = message.get("host")
                     port = message.get("port")
-                    self.peers.append((host, port))
+                    if (host, port) not in self.peers:
+                        self.peers.append((host, port))
                     logger.info(f"connection_manager/handle_peer: Added peer {host}:{port} to peers list")
                     response = {"type": "peer_list", "peers": self.peers}
                     conn.sendall(json.dumps(response).encode())
@@ -146,9 +147,6 @@ class ConnectionManager:
                     for new_peer in new_peers:
                         new_peer_tuple = (new_peer[0], new_peer[1])
                         if new_peer_tuple not in self.peers:
-                            print(new_peer_tuple)
-                            for x_peer in self.peers:
-                                print(x_peer)
                             if new_peer_tuple != (self.host, self.port):
                                 self.peers.append(new_peer_tuple)
                     logger.info(f"connection_manager/inform_peer: Updated peers list: {self.peers}")
