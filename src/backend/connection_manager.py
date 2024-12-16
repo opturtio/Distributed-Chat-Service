@@ -144,7 +144,9 @@ class ConnectionManager:
                 response = json.loads(data.decode())
                 if response.get("type") == "peer_list":
                     new_peers = response.get("peers")
-                    self.peers.append(new_peers)
+                    for new_peer in new_peers:
+                        if new_peer not in self.peers:
+                            self.peers.append(new_peer)
                     logger.info(f"connection_manager/inform_peer: Updated peers list: {self.peers}")
                 else:
                     logger.warning(f"connection_manager/inform_peer: Unexpected response from {peer}: {response}")
