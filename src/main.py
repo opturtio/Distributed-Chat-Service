@@ -62,7 +62,8 @@ def console_menu(peer):
 
         elif choice == "7":
             print("Peers:")
-            for pr in peer.connection_manager.peers:
+            peers = peer.connection_manager.fetch_peers()
+            for pr in peers:
                 print(pr)
             
         elif choice == "8":
