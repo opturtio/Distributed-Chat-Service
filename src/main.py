@@ -7,10 +7,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-print("Current working directory:", os.getcwd())
-print("peer_host:", os.getenv("peer_host"))
-print("peer_port:", os.getenv("peer_port"))
-print("peer_port_own:", os.getenv("peer_port_own"))
+#print("Current working directory:", os.getcwd())
+#print("peer_host:", os.getenv("peer_host"))
+#print("peer_port:", os.getenv("peer_port"))
+print("Port:", os.getenv("peer_port_own"))
 
 def console_menu(peer):
     """Provides a console-based menu for user interaction.
